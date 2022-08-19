@@ -1,0 +1,20 @@
+.color-heavy{
+  color: #6a2634;
+}
+
+.color-text{
+  color: #e18237;
+}
+
+.color-bg{
+  background-color: #ffe0a3;
+}
+
+
+.btn-secondary:hover {
+  background-color: green !important;
+}
+
+.container-fluid{
+  font-family:'Courier New', Courier, monospace;
+}
