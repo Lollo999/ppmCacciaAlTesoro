@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap demo</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+  </head>
+  <body class="color-bg">
+    <div class="container-fluid p-5 text-center">
+      <h1 class="color-heavy">Caccia al tesoro </h1>
+    </div>
+    <div class="container-fluid p-5 text-center">
+      <h3 class="color-text">Il gioco consiste nel rispoendere a delle domande riguardanti delle opere d'arte, se la risposta è corretta si passerà all'indizio successivo fino 
+        a raggiungere l'ultimo indizio che condurrà al tesoro </h3>
+    </div>
+    <div class="container-fluid p-5 text-center">
+      <h3 class="color-text">Vince il gioco chi completa la caccia al tesoro con il numero minore di errori, nel caos di pareggio vince chi ha risolto la caccia in meno tempo.
+         Il gioco partirà quando entrambi i giocatori sono pronti</h3>
+    </div>
+    <div class="container-fluid p-5 text-center">
+      <h1 class="color-heavy">Quando sei pronto premi il pulsante qui sotto</h1>
+    </div>
+    
+    <div class="container-fluid p-5 text-center">
+      <button type="button" class="btn btn-secondary btn-lg" data-toggle="button" aria-pressed="false" autocomplete="off">Ready</button>
+    </div>
+    <script src="socket.io/socket.io.js"></script>
+    <script src="client.js"></script>
+  </body>
+</html>
