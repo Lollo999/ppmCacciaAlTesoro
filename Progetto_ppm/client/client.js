@@ -1,8 +1,7 @@
 
 const onGameStart = () => {
-    console.log('start command received')
+    console.log('start command received');
     window.location = "/questions.html";
-    console.log('page changed');
   };
   
 
