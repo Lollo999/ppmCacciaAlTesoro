@@ -41,8 +41,7 @@ $(document).ready(function(){
     //$('#next').removeClass('disabled')
     //$('#next').addClass('disabled')
     //$('#im2').attr('src', 'images/opera1.jpg'); cambio immagine
-    $('#next').click(function(){
-        //se le carte sono flippate le unflippo
+    function buttonClick(){
         let flips = false;
         $('.flip').each(function(index){
             card=$(this).find('.card');
@@ -60,8 +59,11 @@ $(document).ready(function(){
         }else{
             nextClicked()
         }
+    }
 
-    });
+    $('#next').click(buttonClick);
+
+    buttonClick();
   });
 
   function nextClicked(){
@@ -94,4 +96,4 @@ $(document).ready(function(){
 
         $('#next').addClass('disabled')
         
-  }
+  };
