@@ -78,7 +78,12 @@ io.on('connection', (sock) =>{
             console.log('startGame sent');
         }
     })
+    sock.on('gamedata',function(){  //aggiunge al sock appena connesso la gestione dell'evento
+        console.log("game data received");
+    });
 });
+
+
 
 server.on('error',err => {
     console.error('server error :', err);

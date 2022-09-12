@@ -9,12 +9,11 @@ const onGameStart = () => {
 const onReadyPressed = (e) =>{
     //e.preventDefault(); non serve se si usa il form
     //TODO when button gets pressed
-    document.getElementById('ready').classList.add('disabled')
-    //sock.emit('ready', 'something');
+    document.getElementById('ready').classList.add('disabled');
 };
 
 const onTooManyClients = () =>{
-    document.querySelector('#ready').innerHTML("prova")
+    //modificare la pagina in modo da notificare l'evento
 };
 
 const sock = io();

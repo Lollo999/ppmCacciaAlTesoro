@@ -29,12 +29,28 @@ var list = [
 
 ]
 
+const sock = io();
+
+var QUESTIONS_NUMBER = 5;
+
+var correct = 0;
+var wrong = 0;
+
+
 
 $(document).ready(function(){
     $('.flip').click(function(){ //hover  can be used
         $(this).find('.card').toggleClass('flipped');
         if($(this).find('img').hasClass('correct')==true){
             $('#next').removeClass('disabled')
+            correct++;
+        }else{
+            wrong++;
+        }
+        //check if game is over
+        if(correct == QUESTIONS_NUMBER){
+            sock.emit("gamedata");
+            $('#next').addClass('disabled');
         }
     });
     //$('#next').addClass('disabled') attivare o disattivare bottone
@@ -97,3 +113,8 @@ $(document).ready(function(){
         $('#next').addClass('disabled')
         
   };
+
+  function questionsOver(){
+    //il giocatore ha risposto correttamente a tutte le domande
+    sock.emit('gamedata'); 
+  }
