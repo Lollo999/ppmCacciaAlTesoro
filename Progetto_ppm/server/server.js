@@ -29,19 +29,25 @@ app.use(express.static(clientPath));
 
 app.use(cookieParser());
 
-/*app.get('/', (req, res) =>{
-    session = req.session;
-    if(session.userid){
-        //permit connection only if there are less than 2 clients connected
-    }else{
-        
-    }
-});*/
 
+
+function getHighestScoreSocket(gameResult){
+    var best = 100
+    var bestSock = 0
+    for( i= 0; i<gameResult.length; i++){
+        if(gameResult[i][1]<best){
+            best = gameResult[i][1]
+            bestSock = gameResult[i][0];
+        }
+    }
+    return bestSock
+}
 
 const server = http.createServer(app);
 
 var number = 0;
+var gameTerminated = 0;
+var gameResult = [] //contiene il riferimento al client e il risultato
 
 app.post('/questions', function(req,res){
     if(number < 2){
@@ -66,6 +72,8 @@ app.post('/questions', function(req,res){
     }
 }); 
 
+
+
 const io = socketio(server);
 io.on('connection', (sock) =>{
     console.log('user connesso');
@@ -78,8 +86,30 @@ io.on('connection', (sock) =>{
             console.log('startGame sent');
         }
     })
-    sock.on('gamedata',function(){  //aggiunge al sock appena connesso la gestione dell'evento
-        console.log("game data received");
+    sock.on('gamedata',function(wrong){  //aggiunge al sock appena connesso la gestione dell'evento
+        gameTerminated++;
+        console.log("game data receivedb by:");
+        console.log(wrong);
+        gameResult.push([sock, wrong])
+        if(gameTerminated == 2){
+            //redirect clients with resList
+            var bestSock = getHighestScoreSocket(gameResult)
+            for(i = 0; i<gameResult.length; i++){
+                s = gameResult[i][0]
+                var str = "GG hai trovato il tesoro, hai sbagliato "+gameResult[i][1]+" volte"
+                if(s == bestSock){
+                    str = str + "\n ma il tuo avversario è più nabbo quindi HAI VINTO"
+                    console.log("vinto"+gameResult[i][1])
+                    s.send(str)
+                }else{
+                    str = str + "\n quindi HAI PERSO, F per te"
+                    console.log("perso"+gameResult[i][1])
+                    s.send(str)
+                }
+                
+            }
+            console.log("gioco terminato")
+        }
     });
 });
 

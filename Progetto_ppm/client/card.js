@@ -49,7 +49,7 @@ $(document).ready(function(){
         }
         //check if game is over
         if(correct == QUESTIONS_NUMBER){
-            sock.emit("gamedata");
+            sock.emit("gamedata", wrong);
             $('#next').addClass('disabled');
         }
     });
@@ -113,6 +113,10 @@ $(document).ready(function(){
         $('#next').addClass('disabled')
         
   };
+
+  sock.on('message',function(message){
+    $('#replytest').text(message);
+  });
 
   function questionsOver(){
     //il giocatore ha risposto correttamente a tutte le domande
