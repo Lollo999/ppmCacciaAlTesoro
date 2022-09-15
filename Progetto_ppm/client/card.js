@@ -35,22 +35,26 @@ var QUESTIONS_NUMBER = 5;
 
 var correct = 0;
 var wrong = 0;
+var answerGiven = false;
 
 
 
 $(document).ready(function(){
-    $('.flip').click(function(){ //hover  can be used
-        $(this).find('.card').toggleClass('flipped');
-        if($(this).find('img').hasClass('correct')==true){
-            $('#next').removeClass('disabled')
-            correct++;
-        }else{
-            wrong++;
-        }
-        //check if game is over
-        if(correct == QUESTIONS_NUMBER){
-            sock.emit("gamedata", wrong);
-            $('#next').addClass('disabled');
+    $('.flip').click(function(){ 
+        if(!answerGiven){//se la risposta è già stata data, non fare nulla 
+            $(this).find('.card').toggleClass('flipped');
+            if($(this).find('img').hasClass('correct')==true){
+                answerGiven = true; 
+                $('#next').removeClass('disabled')
+                correct++;
+            }else{
+                wrong++;
+            }
+            //check if game is over
+            if(correct == QUESTIONS_NUMBER){
+                sock.emit("gamedata", wrong);
+                $('#next').addClass('disabled');
+            }
         }
     });
     //$('#next').addClass('disabled') attivare o disattivare bottone
@@ -59,6 +63,7 @@ $(document).ready(function(){
     //$('#im2').attr('src', 'images/opera1.jpg'); cambio immagine
     function buttonClick(){
         let flips = false;
+        answerGiven = false; //r
         $('.flip').each(function(index){
             card=$(this).find('.card');
             if(card.hasClass('flipped')){
