@@ -65,7 +65,7 @@ app.post('/questions', function(req,res){
             }
         }
     }else{  
-        io.emit("tooManyClients");
+        res.send("troppi client connessi")
         console.log("too many clients sent");
         //TODO risolvere il problema di attesa risposta dopo la richiesta tramite post
         
