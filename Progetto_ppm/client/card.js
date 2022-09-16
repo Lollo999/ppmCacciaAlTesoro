@@ -29,21 +29,55 @@ var list = [
 
 ]
 
+const sock = io();
+
+var QUESTIONS_NUMBER = 5;
+
+var correct = 0;
+var wrong = 0;
+var answerGiven = false;
+var interval
+var gameTime = 0
+
+function startInterval(){
+    interval = setInterval(function(){
+        gameTime++; //aumenta i secondi trascorsi
+        $('#timer').text("Tempo trascorso: "+gameTime+" secondi")
+    }, 1000);
+};
+
+function stopInterval(){
+    clearInterval(interval);
+}
+
+
 
 $(document).ready(function(){
-    $('.flip').click(function(){ //hover  can be used
-        $(this).find('.card').toggleClass('flipped');
-        if($(this).find('img').hasClass('correct')==true){
-            $('#next').removeClass('disabled')
+    $('.flip').click(function(){ 
+        if(!answerGiven){//se la risposta è già stata data, non fare nulla 
+            $(this).find('.card').toggleClass('flipped');
+            if($(this).find('img').hasClass('correct')==true){
+                answerGiven = true; 
+                $('#next').removeClass('disabled')
+                correct++;
+            }else{
+                wrong++;
+            }
+            //check if game is over
+            if(correct == QUESTIONS_NUMBER){
+                stopInterval();
+                sock.emit("gamedata", wrong, gameTime);
+                $('#next').addClass('disabled');
+            }
         }
     });
     //$('#next').addClass('disabled') attivare o disattivare bottone
     //$('#next').removeClass('disabled')
     //$('#next').addClass('disabled')
     //$('#im2').attr('src', 'images/opera1.jpg'); cambio immagine
-    $('#next').click(function(){
-        //se le carte sono flippate le unflippo
+    function buttonClick(){
         let flips = false;
+        answerGiven = false; //r
         $('.flip').each(function(index){
             card=$(this).find('.card');
             if(card.hasClass('flipped')){
@@ -60,8 +94,17 @@ $(document).ready(function(){
         }else{
             nextClicked()
         }
+    }
 
-    });
+    $('#next').click(buttonClick);
+
+    buttonClick();  //start game
+
+    //start timer
+    gameTime = 0;
+    startInterval();
+
+
   });
 
   function nextClicked(){
@@ -94,4 +137,13 @@ $(document).ready(function(){
 
         $('#next').addClass('disabled')
         
+  };
+
+  sock.on('message',function(message){
+    $('#replytest').text(message);
+  });
+
+  function questionsOver(){
+    //il giocatore ha risposto correttamente a tutte le domande
+    sock.emit('gamedata'); 
   }
