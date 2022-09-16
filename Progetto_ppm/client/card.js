@@ -36,6 +36,19 @@ var QUESTIONS_NUMBER = 5;
 var correct = 0;
 var wrong = 0;
 var answerGiven = false;
+var interval
+var gameTime = 0
+
+function startInterval(){
+    interval = setInterval(function(){
+        gameTime++; //aumenta i secondi trascorsi
+        $('#timer').text("Tempo trascorso: "+gameTime+" secondi")
+    }, 1000);
+};
+
+function stopInterval(){
+    clearInterval(interval);
+}
 
 
 
@@ -52,7 +65,8 @@ $(document).ready(function(){
             }
             //check if game is over
             if(correct == QUESTIONS_NUMBER){
-                sock.emit("gamedata", wrong);
+                stopInterval();
+                sock.emit("gamedata", wrong, gameTime);
                 $('#next').addClass('disabled');
             }
         }
@@ -84,7 +98,13 @@ $(document).ready(function(){
 
     $('#next').click(buttonClick);
 
-    buttonClick();
+    buttonClick();  //start game
+
+    //start timer
+    gameTime = 0;
+    startInterval();
+
+
   });
 
   function nextClicked(){

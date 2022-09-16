@@ -32,14 +32,49 @@ app.use(cookieParser());
 
 
 function getHighestScoreSocket(gameResult){
+    var temp = gameResult.slice();
     var best = 100
     var bestSock = 0
+
+    //selectionSort del temp array
+    function swap(a,b, arr){
+        var t = arr[a];
+        arr[a] = arr[b];
+        arr[b] = t;
+    }
+
+    console.log({temp})
+
+    var i, j, min;
+    for(i = 0; i<temp.length-1; i++){
+        min = i;
+        for(j = i+1; j<temp.length; j++){
+            if(temp[j][1] < temp[min][1] ){
+                min = j;
+            }
+            else if(temp[j][1] == temp[min][1]){//se hanno commesso lo stesso numero di errori
+                if(temp[j][2] < temp[min][2]){
+                    min = j
+                }
+            }
+            if(min != i){
+                swap(min, i, temp);
+            }
+        }
+    }
+    console.log({temp})
+    bestSock = temp[0][0]   //restituisce il socket 
+                            //con il miglior punteggio
+                            //meno errori o meno tempo
+    //--------------------
+    /*
     for( i= 0; i<gameResult.length; i++){
         if(gameResult[i][1]<best){
             best = gameResult[i][1]
             bestSock = gameResult[i][0];
         }
     }
+    */
     return bestSock
 }
 
@@ -86,11 +121,11 @@ io.on('connection', (sock) =>{
             console.log('startGame sent');
         }
     })
-    sock.on('gamedata',function(wrong){  //aggiunge al sock appena connesso la gestione dell'evento
+    sock.on('gamedata',function(wrong, gameTime){  //aggiunge al sock appena connesso la gestione dell'evento
         gameTerminated++;
         console.log("game data receivedb by:");
         console.log(wrong);
-        gameResult.push([sock, wrong])
+        gameResult.push([sock, wrong, gameTime])
         if(gameTerminated == 2){
             //redirect clients with resList
             var bestSock = getHighestScoreSocket(gameResult)
