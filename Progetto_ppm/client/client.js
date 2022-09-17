@@ -4,8 +4,6 @@ const onGameStart = () => {
     window.location = "/questions.html";
   };
   
-
-
 const onReadyPressed = (e) =>{
     //e.preventDefault(); non serve se si usa il form
     //TODO when button gets pressed
