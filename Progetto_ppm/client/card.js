@@ -158,14 +158,16 @@ $(document).ready(function(){
 
   const onWait = () => {
     console.log('wait command received');
-    window.location = "/waiting_room.html";
+    $('#wait').removeClass('invisible');
+    $('#questions').addClass('hide');
   };
   
   sock.on("wait", onWait);
 
   const onResults = () => {
     console.log('result command received');
-    window.location = "/result_screen.html";
+    $('#wait').addClass('hide');
+    $('#questions').addClass('hide');
   };
   
   sock.on("results", onResults);
