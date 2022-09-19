@@ -5,7 +5,19 @@ const cookieParser = require('cookie-parser');
 const socketio = require('socket.io');
 const app = express();
 const path = require("path");
+const mysql = require('mysql');
 
+//connessione al database
+var con = mysql.createConnection({
+    host:"localhost",
+    user: "root",
+    password: "",
+    database: "ppmdb"
+});
+
+con.connect(function(err) {
+    if (err) throw err;
+});
 
 const oneDay = 1000 * 60 * 60 * 24;
 
@@ -26,6 +38,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use(express.static(clientPath));
+
+app.use(express.static('public'))
 
 app.use(cookieParser());
 
@@ -66,15 +80,6 @@ function getHighestScoreSocket(gameResult){
     bestSock = temp[0][0]   //restituisce il socket 
                             //con il miglior punteggio
                             //meno errori o meno tempo
-    //--------------------
-    /*
-    for( i= 0; i<gameResult.length; i++){
-        if(gameResult[i][1]<best){
-            best = gameResult[i][1]
-            bestSock = gameResult[i][0];
-        }
-    }
-    */
     return bestSock
 }
 
@@ -84,6 +89,10 @@ var number = 0;
 var gameTerminated = 0;
 var gameResult = [] //contiene il riferimento al client e il risultato
 
+app.get('/admin', function(req, res){
+    res.sendFile(path.resolve(clientPath+"/admin.html"));
+});
+
 app.post('/questions', function(req,res){
     if(number < 2){
         //crea sessione per il client
@@ -91,7 +100,6 @@ app.post('/questions', function(req,res){
         s.userid = req.body.username;
         sessionslist.push(s);
         console.log(req.session);
-        //res.sendFile(path.resolve(clientPath+"/questions.html"));
         resList.push(res);
         number++;
         if(number == 2){
@@ -127,7 +135,6 @@ io.on('connection', (sock) =>{
         console.log(wrong);
         gameResult.push([sock, wrong, gameTime])
         if(gameTerminated == 2){
-            //redirect clients with resList
             var bestSock = getHighestScoreSocket(gameResult)
             for(i = 0; i<gameResult.length; i++){
                 s = gameResult[i][0]
@@ -146,6 +153,26 @@ io.on('connection', (sock) =>{
             console.log("gioco terminato")
         }
     });
+
+
+    //ADMIN LISTENERS
+
+    sock.on("admin-getOpere",function(){
+        con.query("SELECT * FROM opera", function (err, result, fields) {
+              if (err) throw err;
+              sock.emit("admin-resgetOpere", result);
+              //console.log(result);
+            });
+    });
+
+    sock.on("admin-getQuestions",function(){
+        con.query("SELECT * FROM indovinello", function (err, result, fields) {
+              if (err) throw err;
+              sock.emit("admin-resgetQuestions", result);
+              //console.log(result);
+            });
+    });
+
 });
 
 
