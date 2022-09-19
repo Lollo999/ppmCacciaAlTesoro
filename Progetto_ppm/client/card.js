@@ -158,7 +158,7 @@ $(document).ready(function(){
 
   const onWait = () => {
     console.log('wait command received');
-    $('#wait').removeClass('invisible');
+    $('#wait').removeClass('hide');
     $('#questions').addClass('hide');
   };
   

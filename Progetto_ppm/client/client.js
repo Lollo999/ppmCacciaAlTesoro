@@ -18,4 +18,3 @@ const sock = io();
 sock.on("startGame", onGameStart);
 sock.on("tooManyClients", onTooManyClients);
 document.querySelector('#ready').addEventListener('click', onReadyPressed);
-

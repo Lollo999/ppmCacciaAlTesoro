@@ -22,11 +22,11 @@
     <div id="questions">
       <div class="row">
         <div class="d-flex justify-content-end">
-          <div id="timer" class="p-5">Tempo trascorso: 00 secondi</div>
+          <div id="timer" class="p-5 container-fluid">Tempo trascorso: 00 secondi</div>
         </div>
       </div>
       <div class="row justify-content-md-center">
-        <div class="col-6 m-5 mt-0" id="question-text">
+        <div class="col-6 m-5 mt-0 container-fluid" id="question-text">
           Questo box conterrà il quesito dell'indovinello, es:
           Una bambina cade da una scala con 300 gradini, ma si rialza senza un graffio. Com'è possibile?
           (non è la Cagnotto da piccola)
@@ -42,7 +42,7 @@
                 </div>
               </div>
               <div class="face back">
-                <div class="inner text-center">
+                <div class="inner text-center container-fluid">
                   <p id="ans1">Risposta</p>
                 </div>
               </div>
@@ -58,7 +58,7 @@
                 </div>
               </div>
               <div class="face back">
-                <div class="inner text-center">
+                <div class="inner text-center container-fluid">
                   <p id="ans2">Risposta</p>
                 </div>
               </div>
@@ -74,7 +74,7 @@
                 </div>
               </div>
               <div class="face back">
-                <div class="inner text-center">
+                <div class="inner text-center container-fluid">
                   <p id="ans3">Risposta</p>
                 </div>
               </div>
@@ -90,7 +90,7 @@
                 </div>
               </div>
               <div class="face back">
-                <div class="inner text-center">
+                <div class="inner text-center container-fluid">
                   <p id="ans4">Risposta</p>
                 </div>
               </div>
@@ -106,7 +106,7 @@
                 </div>
               </div>
               <div class="face back">
-                <div class="inner text-center">
+                <div class="inner text-center container-fluid">
                   <p id="ans5">Risposta</p>
                 </div>
               </div>
@@ -115,7 +115,7 @@
         </div>
         <div class="row">
           <div class="d-flex justify-content-end">
-            <div class="p-5">
+            <div class="p-5 container-fluid">
               <button type="button" id="next" class="btn btn-primary">Prossima Domanda</button>
               <button type="button" id="end" class="btn btn-primary invisible disabled">Fine</button>
             </div>
@@ -124,7 +124,10 @@
       </div>
     </div>
     <div class="row color-text p-5">
-      <h2 id="wait" class="invisible"> In attesa di altri giocatori</h2>
+      <div id="wait" class="hide container-fluid">
+      <h2> In attesa degli altri giocatori</h2>
+      <img class="img-fluid " src="loading.gif" alt="This will display an animated GIF" />
+    </div>
     </div>
     <div class="row color-text p-5">
       <h2 id="replytest"></h2>
