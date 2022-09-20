@@ -6,6 +6,9 @@ const socketio = require('socket.io');
 const app = express();
 const path = require("path");
 const mysql = require('mysql');
+const fileUpload = require('express-fileupload');
+
+
 
 //connessione al database
 var con = mysql.createConnection({
@@ -42,6 +45,8 @@ app.use(express.static(clientPath));
 app.use(express.static('public'))
 
 app.use(cookieParser());
+
+app.use(fileUpload());
 
 
 
@@ -88,6 +93,24 @@ const server = http.createServer(app);
 var number = 0;
 var gameTerminated = 0;
 var gameResult = [] //contiene il riferimento al client e il risultato
+
+app.post('/upload', function(req,res){
+    //load file and redirect
+    console.log(req.files);
+    const { image } = req.files;//apparentemente se non ci sono gli spazi intorno ad image si rompe tutto DKDC
+    console.log(image);
+    //if(!image) return res.sendStatus(400);
+    console.log(clientPath+'/images/'+image.name);  
+    image.mv(clientPath+'/images/'+image.name);
+    
+    var sql = "INSERT INTO opera (name, description, image_url) VALUES (?, ?, ?)";
+  con.query(sql, [req.body.title, req.body.description, 'images/'+image.name], function (err, result) {
+    if (err) throw err;
+    console.log("1 record inserted");
+  });
+
+    res.sendFile(path.resolve(clientPath+"/admin.html"));
+});
 
 app.get('/admin', function(req, res){
     res.sendFile(path.resolve(clientPath+"/admin.html"));
@@ -171,6 +194,12 @@ io.on('connection', (sock) =>{
               sock.emit("admin-resgetQuestions", result);
               //console.log(result);
             });
+    });
+
+    sock.on("admin-insertOpera", function(title, description){
+        //con.query("INSERT INTO opera VALUES ("+title+","+description+");");
+        console.log(title+"||"+description);
+
     });
 
 });

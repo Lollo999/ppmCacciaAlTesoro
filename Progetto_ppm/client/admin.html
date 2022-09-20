@@ -15,11 +15,11 @@
         </button>-->
   
         <!-- Modal -->
-        <div class="modal fade" id="modalOne" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade modal-lg" id="modalOne" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <h6 class="modal-title" id="exampleModalLabel">Edit element</h6>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -27,7 +27,7 @@
                         <h4 id="title">empty</h4>
                     </row>
                     <row>
-                        <textarea class="form-control" id="description" rows="5"></textarea>
+                        <textarea class="form-control" id="description" rows="12"></textarea>
                     </row>
                 </div>
                 <div class="modal-footer">
@@ -37,14 +37,45 @@
             </div>
             </div>
         </div>
+
+        <!--Insert Modal-->
+        <div class="modal fade modal-lg" id="modalInsert" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h6 class="modal-title" id="exampleModalLabel">Insert element</h6>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="/upload" method="POST" enctype="multipart/form-data">
+                <div class="modal-body">
+                    
+                        <row>
+                            <textarea class="form-control" name="title" id="title" rows="1"></textarea>
+                        </row>
+                        <row>
+                            <textarea class="form-control" name="description" id="description" rows="12"></textarea>
+                        </row>
+                        <row>
+                            <input type="file" id="fileupd" name="image">
+                        </row>
+                    
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" id="insert" class="btn btn-primary">Insert</button>
+                </div>
+                </form>
+            </div>
+            </div>
+        </div>
         
 
         <!--modal end-->
-        <div class="row">
+        <div class="row m-3">
             <h3>Options Panel</h3>
         </div>
         <div class="row">
-            <div class="col-6">
+            <div class="col-5 m-3">
                 <h5>Lista opere</h5>
                 <div id ="listaOpere" class="list-group scroll-bar">
                     <li class="list-group-item">An Item</li>
@@ -60,9 +91,9 @@
                     <li class="list-group-item">An Item</li>
                     <li class="list-group-item">An Item</li>    
                 </div>
-                <button type="button" class="btn btn-secondary">+</button>
+                <button type="button" id="insertOperaButton"class="btn btn-secondary my-3 mx-1">+</button>
             </div>
-            <div class="col-6">
+            <div class="col-5 m-3">
                 <h5>Lista Domande</h5>
                 <div id = "listaDomande" class="list-group scroll-bar">
                     <li class="list-group-item">An Item</li>
@@ -78,16 +109,16 @@
                     <li class="list-group-item">An Item</li>
                     <li class="list-group-item">An Item</li>    
                 </div>
-                <button type="button" class="btn btn-secondary">+</button>
+                <button type="button" class="btn btn-secondary my-3 mx-1">+</button>
             </div>
         </div>
         <div class="row">
-            <div class="col-6">
-                <div class="row">
+            <div class="col mx-3">
+                <div class="row my-4">
                     <form class="form-inline">
                         <div>numero di domande: </div>
                         <div class="form-group mb-2">
-                            <input type="text" class="form-control w-25 ms-2" id="questions-per-game" value="5">
+                            <input type="text" class="form-control w-25 ms-2 mx-1" id="questions-per-game" value="5">
                             <button type="submit" class="btn btn-secondary mb-2">Send</button>
                         </div>
                     </form>
@@ -96,7 +127,7 @@
                     <form class="form-inline">
                         <div class="form-group mb-2">
                             <div>numero di giocatori(client):  </div>
-                            <input type="text" class="form-control w-25 " id="client-number" value="2">
+                            <input type="text" class="form-control w-25 mx-1" id="client-number" value="2">
                             <button type="submit" class="btn btn-secondary mb-2">Send</button>
                         </div>
                     </form>

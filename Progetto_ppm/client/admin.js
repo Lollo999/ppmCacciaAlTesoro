@@ -10,6 +10,19 @@ $(document).ready(function(){
     add_item_lista_domande();
 });
 
+$('#insertOperaButton').click(function(){
+    const mod = document.getElementById('modalInsert');
+    mod.querySelector('#title').innerHTML="inserire nome dell'opera";
+    mod.querySelector('#description').innerHTML="inserire descrizione dell'opera";
+    /*mod.querySelector('#insert').onclick = function(){
+        title = mod.querySelector('#title').innerHTML;
+        description = mod.querySelector('#description').innerHTML;
+        sock.emit("admin-insertOpera", title, description);
+    }*/
+    $('#modalInsert').modal('show');
+
+});
+
 function clear_lista_opere(){
     var items = document.querySelectorAll("#listaOpere li");
     for(i = 0; i<items.length; i++ ){
@@ -42,7 +55,7 @@ function add_item_lista_domande(item = 0){
     li.type = "button";
     li.id="itemQuestion";
     li.value = item.code;
-    li.innerHTML = item.name;//TODO
+    li.innerHTML = item.testo;//TODO
     li.onclick = function(){openModal(item)};
     lista_domande.appendChild(li);
 
@@ -54,6 +67,7 @@ function openModal(item){
     mod.querySelector('#description').innerHTML=item.description;
     //options = ""
     //const mewMod = new bootstrap.Modal(mod);
+
     $('#modalOne').modal('show');
 }
 
