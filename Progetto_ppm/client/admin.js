@@ -2,6 +2,7 @@ const sock = io();
 
 var lista_opere = document.getElementById("listaOpere");
 var lista_domande = document.getElementById("listaDomande");
+var logic_lista_opere; //contiene l'ultimo update alla lista delle opere ricevuto dal server
 
 $(document).ready(function(){
     sock.emit("admin-getOpere");
@@ -21,6 +22,26 @@ $('#insertOperaButton').click(function(){
     }*/
     $('#modalInsert').modal('show');
 
+});
+
+$('#insertQuestionButton').click(function(){
+    const mod = document.getElementById('modalInsertQuestion');
+    mod.querySelector('#question').innerHTML = "Inserire l'indovinello";
+    var selector = mod.querySelector('#selectOpera');
+    //TODO cancellare tutti i figli del selector
+    var options_list = document.querySelectorAll("#selectOpera option")
+    for(i = 0; i<options_list.length; i++ ){
+        selector.removeChild(options_list[i]);
+    } 
+
+    //inserisce nuovi selector
+    for(i = 0; i<logic_lista_opere.length; i++){
+        var opt = document.createElement("option");
+        opt.value = logic_lista_opere[i].code;
+        opt.innerHTML = logic_lista_opere[i].name;
+        selector.appendChild(opt);
+    }
+    $('#modalInsertQuestion').modal('show');
 });
 
 function clear_lista_opere(){
@@ -73,6 +94,7 @@ function openModal(item){
 
 sock.on("admin-resgetOpere", function(result){
     clear_lista_opere();
+    logic_lista_opere = result;
     for(i = 0; i<result.length; i++){
         add_item_lista_opere(result[i]);
     }

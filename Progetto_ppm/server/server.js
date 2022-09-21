@@ -106,11 +106,23 @@ app.post('/upload', function(req,res){
     var sql = "INSERT INTO opera (name, description, image_url) VALUES (?, ?, ?)";
   con.query(sql, [req.body.title, req.body.description, 'images/'+image.name], function (err, result) {
     if (err) throw err;
-    console.log("1 record inserted");
+    console.log("record opera inserito correttamente");
   });
 
     res.sendFile(path.resolve(clientPath+"/admin.html"));
 });
+
+
+app.post('/uploadQuestion', function(req,res){
+    var sql = "INSERT INTO indovinello (testo, opera) VALUES( ?, ? )";
+    con.query(sql, [req.body.question, req.body.selectOpera], function(err, result){
+        if(err) throw err;
+        console.log("record indovinello inserito");
+    });
+
+    res.sendFile(path.resolve(clientPath+"/admin.html"));
+});
+
 
 app.get('/admin', function(req, res){
     res.sendFile(path.resolve(clientPath+"/admin.html"));
