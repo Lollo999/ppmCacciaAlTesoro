@@ -15,25 +15,62 @@
         </button>-->
   
         <!-- Modal -->
-        <div class="modal fade modal-lg" id="modalOne" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade modal-lg" id="modalOpera" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                 <h6 class="modal-title" id="exampleModalLabel">Edit element</h6>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
+                <form action="/updateOpera" method="POST" enctype="multipart/form-data">
                 <div class="modal-body">
                     <row>
-                        <h4 id="title">empty</h4>
+                        <textarea class="form-control not-resizable" name="title" id="title" cols="50" rows="1"></textarea>
                     </row>
                     <row>
-                        <textarea class="form-control" id="description" rows="12"></textarea>
+                        <textarea class="form-control not-resizable" name="description" id="description" rows="12"></textarea>
                     </row>
+                        <textarea style="display: none" name="code" id="code"></textarea>
                 </div>
                 <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
+                <button type="submit" class="btn btn-danger" name="send" value="delete">Delete</button>
+                <button type="submit" class="btn btn-primary" name="send" value="update">Save changes</button>
                 </div>
+                </form>
+            </div>
+            </div>
+        </div>
+
+        <!--Modal update domande-->
+        <div class="modal fade modal-lg" id="modalEditQuestion" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h6 class="modal-title" id="exampleModalLabel">Edit element</h6>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="/updateQuestion" method="POST" enctype="multipart/form-data">
+                <div class="modal-body">
+                    <row>
+                        <textarea class="form-control not-resizable" name="testo" id="question" cols="50" rows="2"></textarea>
+                    </row>
+                    <row>
+                        <select class="form-select not-resizable" name="selectOpera" id="selectOpera" aria-label="Default select example">
+                            <option selected>Seleziona opera</option>
+                            <option value="1">One</option>
+                            <option value="2">Two</option>
+                            <option value="3">Three</option>    
+                          </select>
+                    </row>
+                        <textarea style="display: none" name="code" id="code"></textarea>
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-danger" name="send" value="delete">Delete</button>
+                <button type="submit" class="btn btn-primary" name="send" value="update">Save changes</button>
+                </div>
+                </form>
             </div>
             </div>
         </div>
@@ -50,10 +87,10 @@
                 <div class="modal-body">
                     
                         <row>
-                            <textarea class="form-control" name="title" id="title" rows="1"></textarea>
+                            <textarea class="form-control not-resizable" name="title" id="title" rows="1"></textarea>
                         </row>
                         <row>
-                            <textarea class="form-control" name="description" id="description" rows="12"></textarea>
+                            <textarea class="form-control not-resizable" name="description" id="description" rows="12"></textarea>
                         </row>
                         <row>
                             <input type="file" id="fileupd" name="image">
@@ -81,10 +118,10 @@
                 <div class="modal-body">
                     
                         <row>
-                            <textarea class="form-control" name="question" id="question" rows="2"></textarea>
+                            <textarea class="form-control not-resizable" name="question" id="question" rows="2"></textarea>
                         </row>
                         <row>
-                            <select class="form-select" name="selectOpera" id="selectOpera" aria-label="Default select example">
+                            <select class="form-select not-resizable" name="selectOpera" id="selectOpera" aria-label="Default select example">
                                 <option selected>Seleziona opera</option>
                                 <option value="1">One</option>
                                 <option value="2">Two</option>
@@ -103,6 +140,8 @@
         </div>
 
         <!--modal end-->
+        <div class="d-flex justify-content-center">
+        <div class="col-7">
         <div class="row m-3">
             <h3>Options Panel</h3>
         </div>
@@ -145,26 +184,22 @@
             </div>
         </div>
         <div class="row">
-            <div class="col mx-3">
-                <div class="row my-4">
-                    <form class="form-inline">
+            <div class="col-3 mx-3">
+                    <form class="form" action="/uploadSettings" method="POST" enctype="multipart/form-data">
                         <div>numero di domande: </div>
-                        <div class="form-group mb-2">
-                            <input type="text" class="form-control w-25 ms-2 mx-1" id="questions-per-game" value="5">
+                        <div class="form-group">
+                            <textarea class="form-control not-resizable " name="questionsPerGame" id="questionsPerGame" rows="1"></textarea>
                             <button type="submit" class="btn btn-secondary mb-2">Send</button>
                         </div>
-                    </form>
-                </div>
-                <div class="row">
-                    <form class="form-inline">
-                        <div class="form-group mb-2">
+                        <div class="form-group">
                             <div>numero di giocatori(client):  </div>
-                            <input type="text" class="form-control w-25 mx-1" id="client-number" value="2">
+                            <textarea class="form-control not-resizable " name="clientsNumber" id="clientsNumber" rows="1"></textarea>
                             <button type="submit" class="btn btn-secondary mb-2">Send</button>
                         </div>
                     </form>
-                </div>
             </div>
+        </div>
+        </div>
         </div>
         <script src="jquery-3.6.0.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>

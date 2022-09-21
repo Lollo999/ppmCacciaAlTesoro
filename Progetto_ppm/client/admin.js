@@ -7,19 +7,13 @@ var logic_lista_opere; //contiene l'ultimo update alla lista delle opere ricevut
 $(document).ready(function(){
     sock.emit("admin-getOpere");
     sock.emit("admin-getQuestions");
-    add_item_lista_opere();
-    add_item_lista_domande();
+    sock.emit("admin-getSettings");
 });
 
 $('#insertOperaButton').click(function(){
     const mod = document.getElementById('modalInsert');
     mod.querySelector('#title').innerHTML="inserire nome dell'opera";
     mod.querySelector('#description').innerHTML="inserire descrizione dell'opera";
-    /*mod.querySelector('#insert').onclick = function(){
-        title = mod.querySelector('#title').innerHTML;
-        description = mod.querySelector('#description').innerHTML;
-        sock.emit("admin-insertOpera", title, description);
-    }*/
     $('#modalInsert').modal('show');
 
 });
@@ -29,7 +23,7 @@ $('#insertQuestionButton').click(function(){
     mod.querySelector('#question').innerHTML = "Inserire l'indovinello";
     var selector = mod.querySelector('#selectOpera');
     //TODO cancellare tutti i figli del selector
-    var options_list = document.querySelectorAll("#selectOpera option")
+    var options_list = mod.querySelectorAll("#selectOpera option")
     for(i = 0; i<options_list.length; i++ ){
         selector.removeChild(options_list[i]);
     } 
@@ -59,7 +53,7 @@ function add_item_lista_opere(item = 0){
     li.id="itemOpera";
     li.value = item.code;
     li.innerHTML = item.name;//TODO
-    li.onclick = function(){openModal(item)};
+    li.onclick = function(){openModalOpera(item)};
     lista_opere.appendChild(li);
 }
 function clear_lista_domande(){
@@ -77,19 +71,47 @@ function add_item_lista_domande(item = 0){
     li.id="itemQuestion";
     li.value = item.code;
     li.innerHTML = item.testo;//TODO
-    li.onclick = function(){openModal(item)};
+    li.onclick = function(){openModalQuestion(item)};
     lista_domande.appendChild(li);
 
 }
 
-function openModal(item){
-    const mod = document.getElementById('modalOne');
+
+function openModalQuestion(item){
+    const mod = document.getElementById('modalEditQuestion');
+    mod.querySelector('#question').innerHTML = item.testo;
+    mod.querySelector('#code')
+    var selector = mod.querySelector('#selectOpera');
+    mod.querySelector('#code').innerHTML = item.code;
+    //TODO cancellare tutti i figli del selector
+    var options_list = mod.querySelectorAll("#selectOpera option")
+    for(i = 0; i<options_list.length; i++ ){
+        selector.removeChild(options_list[i]);
+    } 
+
+    //inserisce nuovi selector
+    for(i = 0; i<logic_lista_opere.length; i++){
+        var opt = document.createElement("option");
+        opt.value = logic_lista_opere[i].code;
+        opt.innerHTML = logic_lista_opere[i].name;
+        if(item.opera == logic_lista_opere[i].code){
+            opt.selected = 'selected';
+        }
+        selector.appendChild(opt);
+    }
+    $('#modalEditQuestion').modal('show');
+}
+
+
+function openModalOpera(item){
+    const mod = document.getElementById('modalOpera');
     mod.querySelector('#title').innerHTML=item.name;
     mod.querySelector('#description').innerHTML=item.description;
+    mod.querySelector('#code').innerHTML = item.code;
     //options = ""
     //const mewMod = new bootstrap.Modal(mod);
 
-    $('#modalOne').modal('show');
+    $('#modalOpera').modal('show');
 }
 
 sock.on("admin-resgetOpere", function(result){
@@ -106,3 +128,12 @@ sock.on("admin-resgetQuestions", function(result){
         add_item_lista_domande(result[i]);
     }
 });
+
+
+sock.on("admin-resgetSettings", function(numero_domande, numero_client){
+    document.getElementById('questionsPerGame').innerHTML = numero_domande;
+    document.getElementById('clientsNumber').innerHTML = numero_client;
+});
+
+
+

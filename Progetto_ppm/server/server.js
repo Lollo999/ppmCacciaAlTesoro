@@ -123,6 +123,53 @@ app.post('/uploadQuestion', function(req,res){
     res.sendFile(path.resolve(clientPath+"/admin.html"));
 });
 
+app.post('/uploadSettings', function(req,res){
+    var sql = "UPDATE settings SET numero_domande = ?, numero_client = ?";
+    con.query(sql, [req.body.questionsPerGame, req.body.clientsNumber], function(err, result){
+        if(err) throw err;
+        console.log("record settings aggiornato");
+    });
+    res.sendFile(path.resolve(clientPath+"/admin.html"));
+});
+
+app.post('/updateOpera', function(req,res){
+    console.log(req.body);
+    if(req.body.send == "update"){
+        var sql = "UPDATE opera SET description = ?, name = ? WHERE code = ?";
+        con.query(sql, [req.body.description, req.body.title, req.body.code], function(err, result){
+            if(err) throw err;
+            console.log("record opera aggiornato");
+            console.log(result)
+        });
+    }else if(req.body.send == "delete"){
+        var sql = "DELETE FROM opera WHERE code = ?";
+        con.query(sql, [req.body.code], function(err, result){
+            if(err) throw err;
+            console.log("record opera cancellato");
+        });
+    }
+    res.sendFile(path.resolve(clientPath+"/admin.html"));
+});
+
+app.post('/updateQuestion', function(req,res){
+    if(req.body.send == "update"){
+        var sql = "UPDATE indovinello SET testo = ?, opera = ? WHERE code = ?";
+        con.query(sql, [req.body.testo, req.body.selectOpera, req.body.code], function(err, result){
+            if(err) throw err;
+            console.log("record opera aggiornato");
+            console.log(result)
+        });
+    }else if(req.body.send == "delete"){
+        var sql = "DELETE FROM indovinello WHERE code = ?";
+        con.query(sql, [req.body.code], function(err, result){
+            if(err) throw err;
+            console.log("record opera cancellato");
+        });
+    }
+    res.sendFile(path.resolve(clientPath+"/admin.html"));
+});
+
+
 
 app.get('/admin', function(req, res){
     res.sendFile(path.resolve(clientPath+"/admin.html"));
@@ -201,17 +248,18 @@ io.on('connection', (sock) =>{
     });
 
     sock.on("admin-getQuestions",function(){
-        con.query("SELECT * FROM indovinello", function (err, result, fields) {
+        con.query("SELECT i.code as code, testo, opera, name FROM indovinello as i INNER JOIN opera as o ON i.opera = o.code", function (err, result, fields) {
               if (err) throw err;
               sock.emit("admin-resgetQuestions", result);
               //console.log(result);
             });
     });
 
-    sock.on("admin-insertOpera", function(title, description){
-        //con.query("INSERT INTO opera VALUES ("+title+","+description+");");
-        console.log(title+"||"+description);
-
+    sock.on("admin-getSettings", function(){
+        con.query("SELECT * FROM settings", function (err, result, fields) {
+            if (err) throw err;
+            sock.emit("admin-resgetSettings", result[0].numero_domande, result[0].numero_client);
+          });
     });
 
 });
