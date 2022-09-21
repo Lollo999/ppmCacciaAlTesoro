@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <title>Admin Panel</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="admin.css" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+
+    </head>
+    <body>
+        <!-- Button trigger modal -->
+        <!--<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            Launch demo modal
+        </button>-->
+  
+        <!-- Modal -->
+        <div class="modal fade modal-lg" id="modalOpera" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h6 class="modal-title" id="exampleModalLabel">Edit element</h6>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="/updateOpera" method="POST" enctype="multipart/form-data">
+                <div class="modal-body">
+                    <row>
+                        <textarea class="form-control not-resizable" name="title" id="title" cols="50" rows="1"></textarea>
+                    </row>
+                    <row>
+                        <textarea class="form-control not-resizable" name="description" id="description" rows="12"></textarea>
+                    </row>
+                        <textarea style="display: none" name="code" id="code"></textarea>
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-danger" name="send" value="delete">Delete</button>
+                <button type="submit" class="btn btn-primary" name="send" value="update">Save changes</button>
+                </div>
+                </form>
+            </div>
+            </div>
+        </div>
+
+        <!--Modal update domande-->
+        <div class="modal fade modal-lg" id="modalEditQuestion" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h6 class="modal-title" id="exampleModalLabel">Edit element</h6>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="/updateQuestion" method="POST" enctype="multipart/form-data">
+                <div class="modal-body">
+                    <row>
+                        <textarea class="form-control not-resizable" name="testo" id="question" cols="50" rows="2"></textarea>
+                    </row>
+                    <row>
+                        <select class="form-select not-resizable" name="selectOpera" id="selectOpera" aria-label="Default select example">
+                            <option selected>Seleziona opera</option>
+                            <option value="1">One</option>
+                            <option value="2">Two</option>
+                            <option value="3">Three</option>    
+                          </select>
+                    </row>
+                        <textarea style="display: none" name="code" id="code"></textarea>
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-danger" name="send" value="delete">Delete</button>
+                <button type="submit" class="btn btn-primary" name="send" value="update">Save changes</button>
+                </div>
+                </form>
+            </div>
+            </div>
+        </div>
+
+        <!--Insert Modal-->
+        <div class="modal fade modal-lg" id="modalInsert" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h6 class="modal-title" id="exampleModalLabel">Insert element</h6>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="/upload" method="POST" enctype="multipart/form-data">
+                <div class="modal-body">
+                    
+                        <row>
+                            <textarea class="form-control not-resizable" name="title" id="title" rows="1"></textarea>
+                        </row>
+                        <row>
+                            <textarea class="form-control not-resizable" name="description" id="description" rows="12"></textarea>
+                        </row>
+                        <row>
+                            <input type="file" id="fileupd" name="image">
+                        </row>
+                    
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" id="insert" class="btn btn-primary">Insert</button>
+                </div>
+                </form>
+            </div>
+            </div>
+        </div>
+
+        <!--Insert Question Modal-->
+        <div class="modal fade modal-lg" id="modalInsertQuestion" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h6 class="modal-title" id="exampleModalLabel">Insert element</h6>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="/uploadQuestion" method="POST" enctype="multipart/form-data">
+                <div class="modal-body">
+                    
+                        <row>
+                            <textarea class="form-control not-resizable" name="question" id="question" rows="2"></textarea>
+                        </row>
+                        <row>
+                            <select class="form-select not-resizable" name="selectOpera" id="selectOpera" aria-label="Default select example">
+                                <option selected>Seleziona opera</option>
+                                <option value="1">One</option>
+                                <option value="2">Two</option>
+                                <option value="3">Three</option>    
+                              </select>
+                        </row>
+                    
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" id="insert" class="btn btn-primary">Insert</button>
+                </div>
+                </form>
+            </div>
+            </div>
+        </div>
+
+        <!--modal end-->
+        <div class="d-flex justify-content-center">
+        <div class="col-7">
+        <div class="row m-3">
+            <h3>Options Panel</h3>
+        </div>
+        <div class="row">
+            <div class="col-5 m-3">
+                <h5>Lista opere</h5>
+                <div id ="listaOpere" class="list-group scroll-bar">
+                    <li class="list-group-item">An Item</li>
+                    <li class="list-group-item">An Item</li>
+                    <li class="list-group-item">An Item</li>
+                    <li class="list-group-item">An Item</li>
+                    <li class="list-group-item">An Item</li>
+                    <li class="list-group-item">An Item</li>
+                    <li class="list-group-item">An Item</li>
+                    <li class="list-group-item">An Item</li>
+                    <li class="list-group-item">An Item</li>
+                    <li class="list-group-item">An Item</li>
+                    <li class="list-group-item">An Item</li>
+                    <li class="list-group-item">An Item</li>    
+                </div>
+                <button type="button" id="insertOperaButton"class="btn btn-secondary my-3 mx-1">+</button>
+            </div>
+            <div class="col-5 m-3">
+                <h5>Lista Domande</h5>
+                <div id = "listaDomande" class="list-group scroll-bar">
+                    <li class="list-group-item">An Item</li>
+                    <li class="list-group-item">An Item</li>
+                    <li class="list-group-item">An Item</li>
+                    <li class="list-group-item">An Item</li>
+                    <li class="list-group-item">An Item</li>
+                    <li class="list-group-item">An Item</li>
+                    <li class="list-group-item">An Item</li>
+                    <li class="list-group-item">An Item</li>
+                    <li class="list-group-item">An Item</li>
+                    <li class="list-group-item">An Item</li>
+                    <li class="list-group-item">An Item</li>
+                    <li class="list-group-item">An Item</li>    
+                </div>
+                <button type="button" id ="insertQuestionButton" class="btn btn-secondary my-3 mx-1">+</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-3 mx-3">
+                    <form class="form" action="/uploadSettings" method="POST" enctype="multipart/form-data">
+                        <div>numero di domande: </div>
+                        <div class="form-group">
+                            <textarea class="form-control not-resizable " name="questionsPerGame" id="questionsPerGame" rows="1"></textarea>
+                            <button type="submit" class="btn btn-secondary mb-2">Send</button>
+                        </div>
+                        <div class="form-group">
+                            <div>numero di giocatori(client):  </div>
+                            <textarea class="form-control not-resizable " name="clientsNumber" id="clientsNumber" rows="1"></textarea>
+                            <button type="submit" class="btn btn-secondary mb-2">Send</button>
+                        </div>
+                    </form>
+            </div>
+        </div>
+        </div>
+        </div>
+        <script src="jquery-3.6.0.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js" integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
+        <script src="socket.io/socket.io.js"></script>
+        <script src="admin.js"></script>
+    </body>
+</html>
