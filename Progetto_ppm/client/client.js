@@ -4,8 +4,6 @@ const onGameStart = () => {
     window.location = "/questions.html";
   };
   
-
-
 const onReadyPressed = (e) =>{
     //e.preventDefault(); non serve se si usa il form
     //TODO when button gets pressed
@@ -20,4 +18,3 @@ const sock = io();
 sock.on("startGame", onGameStart);
 sock.on("tooManyClients", onTooManyClients);
 document.querySelector('#ready').addEventListener('click', onReadyPressed);
-

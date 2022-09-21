@@ -5,9 +5,11 @@ const cookieParser = require('cookie-parser');
 const socketio = require('socket.io');
 const app = express();
 const path = require("path");
+
 const mysql = require('mysql');
 const fileUpload = require('express-fileupload');
 
+const n_player = 2;
 
 
 //connessione al database
@@ -47,8 +49,6 @@ app.use(express.static('public'))
 app.use(cookieParser());
 
 app.use(fileUpload());
-
-
 
 function getHighestScoreSocket(gameResult){
     var temp = gameResult.slice();
@@ -176,7 +176,7 @@ app.get('/admin', function(req, res){
 });
 
 app.post('/questions', function(req,res){
-    if(number < 2){
+    if(number < n_player){
         //crea sessione per il client
         s = req.session;
         s.userid = req.body.username;
@@ -184,9 +184,9 @@ app.post('/questions', function(req,res){
         console.log(req.session);
         resList.push(res);
         number++;
-        if(number == 2){
+        if(number == n_player){
             for(var i = 0; i<resList.length; i++){
-                resList[i].sendFile(path.resolve(clientPath+"/questions.html"));
+                 resList[i].sendFile(path.resolve(clientPath+"/questions.html"));
             }
         }
     }else{  
@@ -206,7 +206,7 @@ io.on('connection', (sock) =>{
     sock.on('ready', (req, res)=>{
         number++;
         console.log('ready button pressed: '+number);
-        if(number == 2){
+        if(number == n_player){
             io.emit("startGame");
             console.log('startGame sent');
         }
@@ -216,7 +216,19 @@ io.on('connection', (sock) =>{
         console.log("game data receivedb by:");
         console.log(wrong);
         gameResult.push([sock, wrong, gameTime])
-        if(gameTerminated == 2){
+
+        if(gameTerminated < n_player){
+            //resList[0].sendFile(path.resolve(clientPath+"/waiting_room.html"));
+            gameResult[0][0].emit("wait");
+            console.log('wait sent');
+        }
+        if(gameTerminated == n_player){
+            //redirect clients with resList
+            //for(var i = 0; i<resList.length; i++){
+                 //resList[i].sendFile(path.resolve(clientPath+"/result_screen.html"));
+           // }
+           io.emit("results");
+
             var bestSock = getHighestScoreSocket(gameResult)
             for(i = 0; i<gameResult.length; i++){
                 s = gameResult[i][0]

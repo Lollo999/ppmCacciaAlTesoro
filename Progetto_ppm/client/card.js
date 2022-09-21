@@ -31,7 +31,7 @@ var list = [
 
 const sock = io();
 
-var QUESTIONS_NUMBER = 5;
+var QUESTIONS_NUMBER = 2;
 
 var correct = 0;
 var wrong = 0;
@@ -51,7 +51,6 @@ function stopInterval(){
 }
 
 
-
 $(document).ready(function(){
     $('.flip').click(function(){ 
         if(!answerGiven){//se la risposta è già stata data, non fare nulla 
@@ -64,13 +63,22 @@ $(document).ready(function(){
                 wrong++;
             }
             //check if game is over
+            if(correct == QUESTIONS_NUMBER-1){
+                $('#next').on('click', function(event) {
+                    $('#next').addClass('invisible');
+                    $('#end').removeClass('invisible');
+                    console.log("penultima domanda");
+                  });
+            }
             if(correct == QUESTIONS_NUMBER){
                 stopInterval();
-                sock.emit("gamedata", wrong, gameTime);
-                $('#next').addClass('disabled');
+                $('#end').removeClass('disabled');
             }
         }
     });
+    $('#end').on('click', function(event) {
+        sock.emit("gamedata", wrong, gameTime);
+      });
     //$('#next').addClass('disabled') attivare o disattivare bottone
     //$('#next').removeClass('disabled')
     //$('#next').addClass('disabled')
@@ -147,3 +155,19 @@ $(document).ready(function(){
     //il giocatore ha risposto correttamente a tutte le domande
     sock.emit('gamedata'); 
   }
+
+  const onWait = () => {
+    console.log('wait command received');
+    $('#wait').removeClass('hide');
+    $('#questions').addClass('hide');
+  };
+  
+  sock.on("wait", onWait);
+
+  const onResults = () => {
+    console.log('result command received');
+    $('#wait').addClass('hide');
+    $('#questions').addClass('hide');
+  };
+  
+  sock.on("results", onResults);
