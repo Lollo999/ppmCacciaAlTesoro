@@ -5,7 +5,22 @@ const cookieParser = require('cookie-parser');
 const socketio = require('socket.io');
 const app = express();
 const path = require("path");
+const mysql = require('mysql');
+const fileUpload = require('express-fileupload');
 
+
+
+//connessione al database
+var con = mysql.createConnection({
+    host:"localhost",
+    user: "root",
+    password: "",
+    database: "ppmdb"
+});
+
+con.connect(function(err) {
+    if (err) throw err;
+});
 
 const oneDay = 1000 * 60 * 60 * 24;
 
@@ -27,7 +42,11 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(express.static(clientPath));
 
+app.use(express.static('public'))
+
 app.use(cookieParser());
+
+app.use(fileUpload());
 
 
 
@@ -66,15 +85,6 @@ function getHighestScoreSocket(gameResult){
     bestSock = temp[0][0]   //restituisce il socket 
                             //con il miglior punteggio
                             //meno errori o meno tempo
-    //--------------------
-    /*
-    for( i= 0; i<gameResult.length; i++){
-        if(gameResult[i][1]<best){
-            best = gameResult[i][1]
-            bestSock = gameResult[i][0];
-        }
-    }
-    */
     return bestSock
 }
 
@@ -84,6 +94,87 @@ var number = 0;
 var gameTerminated = 0;
 var gameResult = [] //contiene il riferimento al client e il risultato
 
+app.post('/upload', function(req,res){
+    //load file and redirect
+    console.log(req.files);
+    const { image } = req.files;//apparentemente se non ci sono gli spazi intorno ad image si rompe tutto DKDC
+    console.log(image);
+    //if(!image) return res.sendStatus(400);
+    console.log(clientPath+'/images/'+image.name);  
+    image.mv(clientPath+'/images/'+image.name);
+    
+    var sql = "INSERT INTO opera (name, description, image_url) VALUES (?, ?, ?)";
+  con.query(sql, [req.body.title, req.body.description, 'images/'+image.name], function (err, result) {
+    if (err) throw err;
+    console.log("record opera inserito correttamente");
+  });
+
+    res.sendFile(path.resolve(clientPath+"/admin.html"));
+});
+
+
+app.post('/uploadQuestion', function(req,res){
+    var sql = "INSERT INTO indovinello (testo, opera) VALUES( ?, ? )";
+    con.query(sql, [req.body.question, req.body.selectOpera], function(err, result){
+        if(err) throw err;
+        console.log("record indovinello inserito");
+    });
+
+    res.sendFile(path.resolve(clientPath+"/admin.html"));
+});
+
+app.post('/uploadSettings', function(req,res){
+    var sql = "UPDATE settings SET numero_domande = ?, numero_client = ?";
+    con.query(sql, [req.body.questionsPerGame, req.body.clientsNumber], function(err, result){
+        if(err) throw err;
+        console.log("record settings aggiornato");
+    });
+    res.sendFile(path.resolve(clientPath+"/admin.html"));
+});
+
+app.post('/updateOpera', function(req,res){
+    console.log(req.body);
+    if(req.body.send == "update"){
+        var sql = "UPDATE opera SET description = ?, name = ? WHERE code = ?";
+        con.query(sql, [req.body.description, req.body.title, req.body.code], function(err, result){
+            if(err) throw err;
+            console.log("record opera aggiornato");
+            console.log(result)
+        });
+    }else if(req.body.send == "delete"){
+        var sql = "DELETE FROM opera WHERE code = ?";
+        con.query(sql, [req.body.code], function(err, result){
+            if(err) throw err;
+            console.log("record opera cancellato");
+        });
+    }
+    res.sendFile(path.resolve(clientPath+"/admin.html"));
+});
+
+app.post('/updateQuestion', function(req,res){
+    if(req.body.send == "update"){
+        var sql = "UPDATE indovinello SET testo = ?, opera = ? WHERE code = ?";
+        con.query(sql, [req.body.testo, req.body.selectOpera, req.body.code], function(err, result){
+            if(err) throw err;
+            console.log("record opera aggiornato");
+            console.log(result)
+        });
+    }else if(req.body.send == "delete"){
+        var sql = "DELETE FROM indovinello WHERE code = ?";
+        con.query(sql, [req.body.code], function(err, result){
+            if(err) throw err;
+            console.log("record opera cancellato");
+        });
+    }
+    res.sendFile(path.resolve(clientPath+"/admin.html"));
+});
+
+
+
+app.get('/admin', function(req, res){
+    res.sendFile(path.resolve(clientPath+"/admin.html"));
+});
+
 app.post('/questions', function(req,res){
     if(number < 2){
         //crea sessione per il client
@@ -91,7 +182,6 @@ app.post('/questions', function(req,res){
         s.userid = req.body.username;
         sessionslist.push(s);
         console.log(req.session);
-        //res.sendFile(path.resolve(clientPath+"/questions.html"));
         resList.push(res);
         number++;
         if(number == 2){
@@ -127,7 +217,6 @@ io.on('connection', (sock) =>{
         console.log(wrong);
         gameResult.push([sock, wrong, gameTime])
         if(gameTerminated == 2){
-            //redirect clients with resList
             var bestSock = getHighestScoreSocket(gameResult)
             for(i = 0; i<gameResult.length; i++){
                 s = gameResult[i][0]
@@ -146,6 +235,33 @@ io.on('connection', (sock) =>{
             console.log("gioco terminato")
         }
     });
+
+
+    //ADMIN LISTENERS
+
+    sock.on("admin-getOpere",function(){
+        con.query("SELECT * FROM opera", function (err, result, fields) {
+              if (err) throw err;
+              sock.emit("admin-resgetOpere", result);
+              //console.log(result);
+            });
+    });
+
+    sock.on("admin-getQuestions",function(){
+        con.query("SELECT i.code as code, testo, opera, name FROM indovinello as i INNER JOIN opera as o ON i.opera = o.code", function (err, result, fields) {
+              if (err) throw err;
+              sock.emit("admin-resgetQuestions", result);
+              //console.log(result);
+            });
+    });
+
+    sock.on("admin-getSettings", function(){
+        con.query("SELECT * FROM settings", function (err, result, fields) {
+            if (err) throw err;
+            sock.emit("admin-resgetSettings", result[0].numero_domande, result[0].numero_client);
+          });
+    });
+
 });
 
 
