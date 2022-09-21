@@ -3,3 +3,8 @@
     overflow-x: hidden;
     max-height: 200pt;
 }
+
+.not-resizable{
+    resize: none;
+}
+
