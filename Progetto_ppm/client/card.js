@@ -1,6 +1,8 @@
 //creo una breve lista di domande e opere come risposta
 
-var listaopere = [
+
+
+/*var listaopere = [
     "images/gioconda.jpeg",
     "images/opera1.jpg",
     "images/opera2.jpg",
@@ -14,7 +16,7 @@ var listaopere = [
     "images/opera10.jpg"
 ]
 
-var list = [
+var listaQuestions = [
     {question: "La Gioconda (ce la riprenderemo comunque)", risposta: "images/gioconda.jpeg"},
     {question: "Deposizione caravaggio", risposta: "images/opera1.jpg"},
     {question: "Quadro strano colorato (non mi ricordo il nome sry)", risposta: "images/opera2.jpg"},
@@ -27,11 +29,16 @@ var list = [
     {question: "Venere di Botticelli", risposta: "images/opera9.jpg"},
     {question: "David, questa la sai per forza oh", risposta: "images/opera10.jpg"}
 
-]
+]*/
+var listaopere = [];
+var listaQuestions = [];
 
 const sock = io();
 
-var QUESTIONS_NUMBER = 2;
+sock.emit("getData");
+
+var QUESTIONS_NUMBER = 5;
+var CARDS_NUMBER = 5;
 
 var correct = 0;
 var wrong = 0;
@@ -79,10 +86,7 @@ $(document).ready(function(){
     $('#end').on('click', function(event) {
         sock.emit("gamedata", wrong, gameTime);
       });
-    //$('#next').addClass('disabled') attivare o disattivare bottone
-    //$('#next').removeClass('disabled')
-    //$('#next').addClass('disabled')
-    //$('#im2').attr('src', 'images/opera1.jpg'); cambio immagine
+    
     function buttonClick(){
         let flips = false;
         answerGiven = false; //r
@@ -106,37 +110,39 @@ $(document).ready(function(){
 
     $('#next').click(buttonClick);
 
-    buttonClick();  //start game
+    /*buttonClick();  //start game
 
     //start timer
     gameTime = 0;
     startInterval();
+    spostato al termine della risposta del server
+    */
 
 
   });
 
   function nextClicked(){
-    let x = Math.floor(Math.random()*11);
-        let qst = list[x];
-        let parsedtext = qst["question"];
-        let imageurl = qst["risposta"];
+    let x = Math.floor(Math.random()*listaQuestions.length);
+        let qst = listaQuestions[x];
+        let parsedtext = qst["testo"];
+        let imageurl = qst["image_url"];
         //scegli carta random tra 0-4
-        var cardnumber = Math.floor(Math.random()*4+1);
+        var cardnumber = Math.floor(Math.random()*CARDS_NUMBER+1);
         $('#im'+cardnumber).attr('src', imageurl)
         var allcardslist = [];
         allcardslist.push(x);
-        for(let i = 0; i< 6; i++){
+        for(let i = 0; i< CARDS_NUMBER+1; i++){
             if(i == cardnumber ){
                 $('#ans'+i).text("Risposta corretta");
                 $('#im'+i).addClass('correct');
             }else{
                 $('#im'+i).removeClass('correct');
-                var rand = Math.floor(Math.random()*11);
+                var rand = Math.floor(Math.random()*listaopere.length);
                 while(allcardslist.includes(rand)){
-                    rand = Math.floor(Math.random()*11);
+                    rand = Math.floor(Math.random()*listaopere.length);
                 }
                 allcardslist.push(rand);
-                $('#im'+i).attr('src', listaopere[rand]);
+                $('#im'+i).attr('src', listaopere[rand]["image_url"]);
                 $('#ans'+i).text("Risposta errata");
             }
             
@@ -171,3 +177,27 @@ $(document).ready(function(){
   };
   
   sock.on("results", onResults);
+
+
+  sock.on("res-getData",function(opere, questions,  clients_number, cards_number, questions_number){
+    listaQuestions = questions;
+    listaopere = opere;
+    QUESTIONS_NUMBER = questions_number;
+    CARDS_NUMBER = cards_number;
+
+    //TODO CLIENTS_NUMBER = clients_number
+
+    start_game();//avvia il gioco (e il caricamento delle carte) dopo aver ricevuto risposta
+
+  });
+
+  function start_game(){
+    //buttonClick();  //start game
+    $('#next').trigger('click');//preme il tasto next
+
+    //start timer
+    gameTime = 0;
+    startInterval();
+  }
+
+

@@ -8,6 +8,7 @@ const path = require("path");
 
 const mysql = require('mysql');
 const fileUpload = require('express-fileupload');
+const { query } = require('express');
 
 const n_player = 2;
 
@@ -262,6 +263,7 @@ io.on('connection', (sock) =>{
     sock.on("admin-getQuestions",function(){
         con.query("SELECT i.code as code, testo, opera, name FROM indovinello as i INNER JOIN opera as o ON i.opera = o.code", function (err, result, fields) {
               if (err) throw err;
+
               sock.emit("admin-resgetQuestions", result);
               //console.log(result);
             });
@@ -270,9 +272,67 @@ io.on('connection', (sock) =>{
     sock.on("admin-getSettings", function(){
         con.query("SELECT * FROM settings", function (err, result, fields) {
             if (err) throw err;
+
             sock.emit("admin-resgetSettings", result[0].numero_domande, result[0].numero_client);
           });
     });
+
+
+    sock.on("getData", function(){
+        //TODO query lista opere e lista questions
+        //TODO send reply to client
+        var o;
+        var q;
+        var clients_number;
+        var cards_number;
+        var questions_number;
+        var sql = "SELECT * FROM opera";
+
+
+        function nestedQuery2(){
+            sql="SELECT * FROM settings";
+            con.query(sql, function(err, result, fields){
+                if(err) throw err;
+
+                console.log("settings data query successful");
+                clients_number = result[0].numero_client;
+                cards_number = result[0].numero_carte;
+                questions_number = result[0].numero_domande;
+                nestedQuery();
+            })
+        }
+
+        function nestedQuery(){
+            sql = "SELECT i.testo, o.image_url FROM indovinello as i INNER JOIN opera as o ON i.opera = o.code";
+            con.query(sql, function(err, result, fields){
+
+                if(err) throw err;
+
+                console.log("data2 query successful");
+                q = result;
+
+                sock.emit('res-getData',o, q, clients_number, cards_number, questions_number);
+            });
+        }
+
+        con.query(sql, function(err, result, fields){
+
+            if(err) throw err;
+
+            console.log("data1 query successful");
+
+            
+            o = result;
+
+            nestedQuery2();
+        });
+
+
+
+        //sock.emit('res-getData',o, q);
+
+    });
+
 
 });
 
