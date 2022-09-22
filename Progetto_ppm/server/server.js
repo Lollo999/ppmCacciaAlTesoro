@@ -8,6 +8,7 @@ const path = require("path");
 
 const mysql = require('mysql');
 const fileUpload = require('express-fileupload');
+const { query } = require('express');
 
 const n_player = 2;
 
@@ -262,6 +263,7 @@ io.on('connection', (sock) =>{
     sock.on("admin-getQuestions",function(){
         con.query("SELECT i.code as code, testo, opera, name FROM indovinello as i INNER JOIN opera as o ON i.opera = o.code", function (err, result, fields) {
               if (err) throw err;
+
               sock.emit("admin-resgetQuestions", result);
               //console.log(result);
             });
@@ -270,9 +272,52 @@ io.on('connection', (sock) =>{
     sock.on("admin-getSettings", function(){
         con.query("SELECT * FROM settings", function (err, result, fields) {
             if (err) throw err;
+
             sock.emit("admin-resgetSettings", result[0].numero_domande, result[0].numero_client);
           });
     });
+
+
+    sock.on("getData", function(){
+        //TODO query lista opere e lista questions
+        //TODO send reply to client
+        var o;
+        var q;
+        var sql = "SELECT * FROM opera";
+
+
+        function nestedQuery(){
+            sql = "SELECT i.testo, o.image_url FROM indovinello as i INNER JOIN opera as o ON i.opera = o.code";
+            con.query(sql, function(err, result, fields){
+
+                if(err) throw err;
+
+                console.log("data2 query successful");
+
+                console.log(result)
+                q = result;
+                sock.emit('res-getData',o, q);
+            });
+        }
+
+        con.query(sql, function(err, result, fields){
+
+            if(err) throw err;
+
+            console.log("data1 query successful");
+
+            console.log(result);
+            o = result;
+
+            nestedQuery();
+        });
+
+
+
+        //sock.emit('res-getData',o, q);
+
+    });
+
 
 });
 
