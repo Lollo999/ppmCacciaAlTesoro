@@ -283,8 +283,24 @@ io.on('connection', (sock) =>{
         //TODO send reply to client
         var o;
         var q;
+        var clients_number;
+        var cards_number;
+        var questions_number;
         var sql = "SELECT * FROM opera";
 
+
+        function nestedQuery2(){
+            sql="SELECT * FROM settings";
+            con.query(sql, function(err, result, fields){
+                if(err) throw err;
+
+                console.log("settings data query successful");
+                clients_number = result[0].numero_client;
+                cards_number = result[0].numero_carte;
+                questions_number = result[0].numero_domande;
+                nestedQuery();
+            })
+        }
 
         function nestedQuery(){
             sql = "SELECT i.testo, o.image_url FROM indovinello as i INNER JOIN opera as o ON i.opera = o.code";
@@ -293,10 +309,9 @@ io.on('connection', (sock) =>{
                 if(err) throw err;
 
                 console.log("data2 query successful");
-
-                console.log(result)
                 q = result;
-                sock.emit('res-getData',o, q);
+
+                sock.emit('res-getData',o, q, clients_number, cards_number, questions_number);
             });
         }
 
@@ -306,10 +321,10 @@ io.on('connection', (sock) =>{
 
             console.log("data1 query successful");
 
-            console.log(result);
+            
             o = result;
 
-            nestedQuery();
+            nestedQuery2();
         });
 
 

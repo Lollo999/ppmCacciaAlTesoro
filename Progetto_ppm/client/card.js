@@ -38,6 +38,7 @@ const sock = io();
 sock.emit("getData");
 
 var QUESTIONS_NUMBER = 5;
+var CARDS_NUMBER = 5;
 
 var correct = 0;
 var wrong = 0;
@@ -121,24 +122,24 @@ $(document).ready(function(){
   });
 
   function nextClicked(){
-    let x = Math.floor(Math.random()*11);
+    let x = Math.floor(Math.random()*listaQuestions.length);
         let qst = listaQuestions[x];
         let parsedtext = qst["testo"];
         let imageurl = qst["image_url"];
         //scegli carta random tra 0-4
-        var cardnumber = Math.floor(Math.random()*4+1);
+        var cardnumber = Math.floor(Math.random()*CARDS_NUMBER+1);
         $('#im'+cardnumber).attr('src', imageurl)
         var allcardslist = [];
         allcardslist.push(x);
-        for(let i = 0; i< 6; i++){
+        for(let i = 0; i< CARDS_NUMBER+1; i++){
             if(i == cardnumber ){
                 $('#ans'+i).text("Risposta corretta");
                 $('#im'+i).addClass('correct');
             }else{
                 $('#im'+i).removeClass('correct');
-                var rand = Math.floor(Math.random()*11);
+                var rand = Math.floor(Math.random()*listaopere.length);
                 while(allcardslist.includes(rand)){
-                    rand = Math.floor(Math.random()*11);
+                    rand = Math.floor(Math.random()*listaopere.length);
                 }
                 allcardslist.push(rand);
                 $('#im'+i).attr('src', listaopere[rand]["image_url"]);
@@ -178,9 +179,13 @@ $(document).ready(function(){
   sock.on("results", onResults);
 
 
-  sock.on("res-getData",function(opere, questions){
+  sock.on("res-getData",function(opere, questions,  clients_number, cards_number, questions_number){
     listaQuestions = questions;
     listaopere = opere;
+    QUESTIONS_NUMBER = questions_number;
+    CARDS_NUMBER = cards_number;
+
+    //TODO CLIENTS_NUMBER = clients_number
 
     start_game();//avvia il gioco (e il caricamento delle carte) dopo aver ricevuto risposta
 
