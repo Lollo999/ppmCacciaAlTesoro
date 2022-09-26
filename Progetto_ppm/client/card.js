@@ -1,7 +1,6 @@
 //creo una breve lista di domande e opere come risposta
 
 
-
 /*var listaopere = [
     "images/gioconda.jpeg",
     "images/opera1.jpg",
@@ -151,9 +150,9 @@ $(document).ready(function(){
                 $('#im'+i).addClass('correct');
             }else{
                 $('#im'+i).removeClass('correct');
-                var rand = Math.floor(Math.random()*listaopere.length);
-                while(allcardslist.includes(rand)){ //finchè non si trova una carta non presente
-                    rand = Math.floor(Math.random()*listaopere.length);
+                var rand = Math.floor(Math.random()*(listaopere.length-1))+1;
+                while(allcardslist.includes(rand) || !getImageUrl(rand)){ //finchè non si trova una carta non presente
+                    rand = Math.floor(Math.random()*(listaopere.length-1))+1;
                 }
                 allcardslist.push(rand);
                 $('#im'+i).attr('src', getImageUrl(rand));
@@ -162,12 +161,15 @@ $(document).ready(function(){
             
         }
 
+        console.log(allcardslist);
+
         function getImageUrl(rand){
             for(i = 0; i<listaopere.length; i++){
                 if(listaopere[i]["code"]==rand){
                     return listaopere[i]["image_url"];
                 }
             }
+            return false
         }
 
         $('#question-text').text(parsedtext)
