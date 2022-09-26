@@ -32,6 +32,7 @@ var listaQuestions = [
 ]*/
 var listaopere = [];
 var listaQuestions = [];
+var shuffledQuestions = [];
 
 const sock = io();
 
@@ -45,6 +46,7 @@ var wrong = 0;
 var answerGiven = false;
 var interval
 var gameTime = 0
+var currentQuestion = 0;
 
 function startInterval(){
     interval = setInterval(function(){
@@ -122,15 +124,27 @@ $(document).ready(function(){
   });
 
   function nextClicked(){
-    let x = Math.floor(Math.random()*listaQuestions.length);
-        let qst = listaQuestions[x];
+
+    if(currentQuestion == 0){
+        // copia e randomizza array domande
+        shuffledQuestions = listaQuestions.slice();
+        for(i = 0; i<listaQuestions.length*5; i++){
+            x = Math.floor(Math.random()*listaQuestions.length);
+            y = Math.floor(Math.random()*listaQuestions.length);
+            var t = shuffledQuestions[x];
+            shuffledQuestions[x] = shuffledQuestions[y];
+            shuffledQuestions[y] = t;
+        }
+    }
+        //let x = Math.floor(Math.random()*listaQuestions.length);
+        let qst = shuffledQuestions[currentQuestion];
         let parsedtext = qst["testo"];
         let imageurl = qst["image_url"];
         //scegli carta random tra 0-4
         var cardnumber = Math.floor(Math.random()*CARDS_NUMBER+1);
         $('#im'+cardnumber).attr('src', imageurl)
         var allcardslist = [];
-        allcardslist.push(x);
+        allcardslist.push(qst["code"]);
         for(let i = 0; i< CARDS_NUMBER+1; i++){
             if(i == cardnumber ){
                 $('#ans'+i).text("Risposta corretta");
@@ -138,19 +152,28 @@ $(document).ready(function(){
             }else{
                 $('#im'+i).removeClass('correct');
                 var rand = Math.floor(Math.random()*listaopere.length);
-                while(allcardslist.includes(rand)){
+                while(allcardslist.includes(rand)){ //finchè non si trova una carta non presente
                     rand = Math.floor(Math.random()*listaopere.length);
                 }
                 allcardslist.push(rand);
-                $('#im'+i).attr('src', listaopere[rand]["image_url"]);
+                $('#im'+i).attr('src', getImageUrl(rand));
                 $('#ans'+i).text("Risposta errata");
             }
             
         }
+
+        function getImageUrl(rand){
+            for(i = 0; i<listaopere.length; i++){
+                if(listaopere[i]["code"]==rand){
+                    return listaopere[i]["image_url"];
+                }
+            }
+        }
+
         $('#question-text').text(parsedtext)
 
         $('#next').addClass('disabled')
-        
+        currentQuestion++;
   };
 
   sock.on('message',function(message){

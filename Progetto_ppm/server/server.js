@@ -303,7 +303,7 @@ io.on('connection', (sock) =>{
         }
 
         function nestedQuery(){
-            sql = "SELECT i.testo, o.image_url FROM indovinello as i INNER JOIN opera as o ON i.opera = o.code";
+            sql = "SELECT i.testo, o.image_url, o.code FROM indovinello as i INNER JOIN opera as o ON i.opera = o.code";
             con.query(sql, function(err, result, fields){
 
                 if(err) throw err;
