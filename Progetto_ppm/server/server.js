@@ -277,7 +277,7 @@ io.on('connection', (sock) =>{
           });
     });
 
-
+    
     sock.on("getData", function(){
         //TODO query lista opere e lista questions
         //TODO send reply to client
