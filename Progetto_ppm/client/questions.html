@@ -116,8 +116,12 @@
         <div class="row">
           <div class="d-flex justify-content-end">
             <div class="p-5 container-fluid">
-              <button type="button" id="next" class="btn btn-primary">Prossima Domanda</button>
-              <button type="button" id="end" class="btn btn-primary invisible disabled">Fine</button>
+              <div id="next_wrap">
+                <button type="button" id="next" class="btn btn-primary">Prossima Domanda</button>
+              </div>
+              <div id="end_wrap" class="hide">
+                <button type="button" id="end" class="btn btn-primary disabled">Fine</button>
+              </div>
             </div>
           </div>
         </div>
@@ -125,14 +129,21 @@
     </div>
     <div class="row color-text p-5">
       <div id="wait" class="hide container-fluid">
-      <h2> In attesa degli altri giocatori</h2>
-      <img class="img-fluid " src="loading.gif" alt="This will display an animated GIF" />
-    </div>
+        <h2> In attesa degli altri giocatori</h2>
+        <img class="img-fluid " src="loading.gif" alt="This will display an animated GIF" />
+      </div>
     </div>
     <div class="row color-text p-5">
       <h2 id="replytest"></h2>
+
     </div>
-    
+    <div id="disc" class="hide">
+      <h1 class="color-heavy ">L'avversario si è disconnesso prima di completare le domande, hai vinto</h1>
+    </div>
+    <div id="exit_b">
+      <button id="exit" class="btn btn-secondary btn-lg"> Exit </button>
+    </div>
+
   </div>
   <script src="socket.io/socket.io.js"></script>
   <script src="card.js"></script>
