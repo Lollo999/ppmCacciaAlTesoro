@@ -73,8 +73,8 @@ $(document).ready(function(){
             //check if game is over
             if(correct == QUESTIONS_NUMBER-1){
                 $('#next').on('click', function(event) {
-                    $('#next').addClass('invisible');
-                    $('#end').removeClass('invisible');
+                    $('#next_wrap').addClass('hide');
+                    $('#end_wrap').removeClass('hide');
                     console.log("penultima domanda");
                   });
             }
@@ -191,6 +191,7 @@ $(document).ready(function(){
     console.log('wait command received');
     $('#wait').removeClass('hide');
     $('#questions').addClass('hide');
+    $('#exit_b').addClass('hide');
   };
   
   sock.on("wait", onWait);
@@ -199,6 +200,7 @@ $(document).ready(function(){
     console.log('result command received');
     $('#wait').addClass('hide');
     $('#questions').addClass('hide');
+    $('#exit_b').removeClass('hide');
   };
   
   sock.on("results", onResults);
@@ -224,5 +226,21 @@ $(document).ready(function(){
     gameTime = 0;
     startInterval();
   }
+  $('#exit').click(function(){
+    sock.emit("other_disconnect");
+    window.location.replace("index.html");
+});
 
 
+
+const onDisc = () =>{
+    console.log("reset ricevuto");
+    $('#disc').removeClass('hide');
+    $('#wait').addClass('hide');
+    $('#questions').addClass('hide');
+    $('#next_wrap').addClass('hide');
+    $('#end_wrap').addClass('hide');
+    $('#exit_b').removeClass('hide');
+}
+
+sock.on("disc_page", onDisc);
