@@ -226,7 +226,7 @@ $(document).ready(function(){
   }
   $('#exit').click(function(){
     sock.emit("other_disconnect");
-    window.close();
+    window.location.replace("index.html");
 });
 
 
