@@ -1,7 +1,8 @@
+const { disconnect, emit, send } = require("process");
 
 const onGameStart = () => {
     console.log('start command received');
-    window.location = "/questions.html";
+    //window.location = "/questions.html";
   };
   
 const onReadyPressed = (e) =>{
@@ -13,6 +14,7 @@ const onReadyPressed = (e) =>{
 const onTooManyClients = () =>{
     //modificare la pagina in modo da notificare l'evento
 };
+
 
 const sock = io();
 sock.on("startGame", onGameStart);
