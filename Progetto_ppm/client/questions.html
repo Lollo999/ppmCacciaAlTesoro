@@ -17,19 +17,20 @@
     crossorigin="anonymous"></script>
 </head>
 
-<body class="color-bg">
+<body class="color-bg container-fluid">
   <div class="row justify-content-end">
     <div class="col-2">
-      <button href="index.html" type="button" class="btn btn-dark"> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
-        <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
-      </svg></button>
+      <a href="index.html" class="btn btn-dark" role="button"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-left" viewBox="0 0 16 16">
+        <path fill-rule="evenodd" d="M6 12.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-8a.5.5 0 0 0-.5.5v2a.5.5 0 0 1-1 0v-2A1.5 1.5 0 0 1 6.5 2h8A1.5 1.5 0 0 1 16 3.5v9a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 5 12.5v-2a.5.5 0 0 1 1 0v2z"/>
+        <path fill-rule="evenodd" d="M.146 8.354a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L1.707 7.5H10.5a.5.5 0 0 1 0 1H1.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3z"/>
+      </svg></a>
     </div>
   </div>
   <div class="container text-center">
     <div id="questions">
       <div class="row">
         <div class="d-flex justify-content-end">
-          <div id="timer" class="p-5 container-fluid">Tempo trascorso: 00 secondi</div>
+          <div id="timer" class="py-2 px-4 container-fluid">Tempo trascorso: 00 secondi</div>
         </div>
       </div>
       <div class="row justify-content-md-center">
@@ -124,23 +125,27 @@
           <div class="d-flex justify-content-end">
             <div class="p-5 container-fluid">
               <div id="next_wrap">
-                <button type="button" id="next" class="btn btn-primary">Prossima Domanda</button>
+                <button type="button" id="next" class="csbutton style-2">Prossima Domanda</button>
+                
               </div>
               <div id="end_wrap" class="hide">
-                <button type="button" id="end" class="btn btn-primary disabled">Fine</button>
+                <button type="button" id="end" class="csbutton style-2">Fine</button>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <div class="row color-text p-5">
+  </div>
+  <div class="row justify-content-center"> 
+    <div class="col-6 ">
+    <div id="row1" class="row color-text">
       <div id="wait" class="hide container-fluid">
         <h2> In attesa degli altri giocatori</h2>
         <img class="img-fluid " src="loading.gif" alt="This will display an animated GIF" />
       </div>
     </div>
-    <div class="row color-text p-5">
+    <div id ="row2" class="row color-text">
       <h2 id="replytest"></h2>
 
     </div>
@@ -150,7 +155,7 @@
     <div id="exit_b" class="hide">
       <button id="exit" class="btn btn-secondary btn-lg"> Exit </button>
     </div>
-
+    </div>
   </div>
   <script src="socket.io/socket.io.js"></script>
   <script src="card.js"></script>

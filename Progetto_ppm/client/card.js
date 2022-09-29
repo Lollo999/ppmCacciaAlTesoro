@@ -190,6 +190,8 @@ $(document).ready(function(){
   const onWait = () => {
     console.log('wait command received');
     $('#wait').removeClass('hide');
+    $('row1').addClass("p-5");
+    $('row2').addClass("p5");
     $('#questions').addClass('hide');
     $('#exit_b').addClass('hide');
   };
@@ -221,7 +223,8 @@ $(document).ready(function(){
   function start_game(){
     //buttonClick();  //start game
     $('#next').trigger('click');//preme il tasto next
-
+    $('row1').removeClass("p-5");
+    $('row2').removeClass("p5");
     //start timer
     gameTime = 0;
     startInterval();
