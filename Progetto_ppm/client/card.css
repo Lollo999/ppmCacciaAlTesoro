@@ -71,4 +71,22 @@
 .color-red{
   color:darkred;
 }
+
+.end-card{
+  width: 35rem;
+  color: #6a2634;
+  background-color: #e18237;
+}
+
+.end-card-img{
+  height: 15rem;
+  overflow: hidden;
+  object-fit: cover;
+}
+
+.end-card-body{
+  height: 15rem;
+  overflow: auto;
+  background-color: #ffe0a3;
+}
   

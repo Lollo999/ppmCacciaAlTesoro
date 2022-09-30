@@ -208,6 +208,42 @@ $(document).ready(function(){
     $('#wait').addClass('hide');
     $('#questions').addClass('hide');
     $('#exit_b').removeClass('hide');
+
+    var cards_flexbox = document.getElementById("cardsflex");
+
+    for(i = 0; i<QUESTIONS_NUMBER+1; i++){
+        //crea nuova carta e inseriscila nel flexbox
+        var img = document.createElement("img");
+        img.src = shuffledQuestions[i]["image_url"];
+        img.classList.add("card-img-top");
+        img.classList.add("end-card-img")
+
+
+        var title = document.createElement("h5");
+        title.classList.add("card-title");
+        title.innerHTML = shuffledQuestions[i]["name"];
+        var desc = document.createElement("div");
+        desc.classList.add("card-text");
+        desc.innerHTML=shuffledQuestions[i]["description"];
+
+        var body = document.createElement("div");
+        body.classList.add("card-body");
+        body.classList.add("end-card-body");
+        body.appendChild(title);
+        body.appendChild(desc);
+        
+
+
+        var card = document.createElement("div");
+        card.classList.add("card");
+        card.classList.add("end-card");
+        card.classList.add("m-2");
+        card.classList.add("border-dark");
+        card.classList.add("border-4");
+        card.appendChild(img);
+        card.appendChild(body);
+        cards_flexbox.appendChild(card)
+    }
   };
   
   sock.on("results", onResults);
