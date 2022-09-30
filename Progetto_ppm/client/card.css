@@ -42,6 +42,7 @@
   }
   .flip .card .back {
     padding-top: 10%;
+    margin-left: 0px;
     -webkit-transform: rotatey(-180deg);
             transform: rotatey(-180deg);
     position: absolute;
