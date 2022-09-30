@@ -53,8 +53,8 @@
                     <div class="col">
                       <h4><div id="ans1">Risposta</div></h4>
                       <h1>
-                      <i id="check1"class="bi bi-check-lg icon" style="color: green"></i>
-                      <i id="cross1" class="bi bi-x-lg icon" style="color: red"></i>
+                      <i id="check1"class="bi bi-check-lg icon color-green"></i>
+                      <i id="cross1" class="bi bi-x-lg icon color-red"></i>
                       </h1>
                     </div>
                   </div>
@@ -77,8 +77,8 @@
                     <div class="col">
                       <h4><div id="ans2">Risposta</div></h4>
                       <h1>
-                      <i id="check2"class="bi bi-check-lg icon" style="color: green"></i>
-                      <i id="cross2" class="bi bi-x-lg icon" style="color: red"></i>
+                      <i id="check2"class="bi bi-check-lg icon color-green" ></i>
+                      <i id="cross2" class="bi bi-x-lg icon color-red"></i>
                       </h1>
                     </div>
                   </div>
@@ -101,8 +101,8 @@
                     <div class="col">
                       <h4><div id="ans3">Risposta</div></h4>
                       <h1>
-                      <i id="check3"class="bi bi-check-lg icon" style="color: green"></i>
-                      <i id="cross3" class="bi bi-x-lg icon" style="color: red"></i>
+                      <i id="check3"class="bi bi-check-lg icon color-green"></i>
+                      <i id="cross3" class="bi bi-x-lg icon color-red"></i>
                       </h1>
                     </div>
                   </div>
@@ -125,8 +125,8 @@
                     <div class="col">
                       <h4><div id="ans4">Risposta</div></h4>
                       <h1>
-                      <i id="check4"class="bi bi-check-lg icon" style="color: green"></i>
-                      <i id="cross4" class="bi bi-x-lg icon" style ="color: red;"></i>
+                      <i id="check4"class="bi bi-check-lg icon color-green"></i>
+                      <i id="cross4" class="bi bi-x-lg icon color-red"></i>
                       </h1>
                     </div>
                   </div>
@@ -150,8 +150,8 @@
                       
                       <h4><div id="ans5">Risposta</div></h4>
                       <h1>
-                      <i id="check5"class="bi bi-check-lg icon" style="color: green"></i>
-                      <i id="cross5" class="bi bi-x-lg icon" style="color: red"></i>
+                      <i id="check5"class="bi bi-check-lg icon color-green"></i>
+                      <i id="cross5" class="bi bi-x-lg icon color-red"></i>
                       </h1>
                     </div>
                   </div>
@@ -168,7 +168,7 @@
                 
               </div>
               <div id="end_wrap" class="hide">
-                <button type="button" id="end" class="csbutton style-2">Fine</button>
+                <button type="button" id="end" class="csbutton style-2 disabled">Fine</button>
               </div>
             </div>
           </div>
@@ -176,25 +176,33 @@
       </div>
     </div>
   </div>
+  <div class="container-fluid">
   <div class="row justify-content-center"> 
-    <div class="col-6 ">
-    <div id="row1" class="row color-text">
-      <div id="wait" class="hide container-fluid">
+    <div class="col-xl-10">
+    <div id="row1" class="row color-text justify-content-center">
+      <div id="wait" class="hide">
         <h2> In attesa degli altri giocatori</h2>
         <img class="img-fluid " src="loading.gif" alt="This will display an animated GIF" />
       </div>
     </div>
-    <div id ="row2" class="row color-text">
-      <h2 id="replytest"></h2>
+    <div id ="row2" class="row color-text justify-content-center">
+      <h4 id="replytest"></h4>
+      <div class="container-fluid py-2">
+        <h4 class="font-weight-light"></h4>
+        <div id="cardsflex" class="d-flex flex-row flex-nowrap">
+            
+        </div>
+    </div>
 
     </div>
-    <div id="disc" class="hide">
+    <div id="disc" class=" hide ">
       <h1 class="color-heavy ">L'avversario si è disconnesso prima di completare le domande, hai vinto</h1>
     </div>
-    <div id="exit_b" class="hide">
+    <!--<div id="exit_b" class=" hide">
       <button id="exit" class="btn btn-secondary btn-lg"> Exit </button>
+    </div>-->
     </div>
-    </div>
+  </div>
   </div>
   <script src="socket.io/socket.io.js"></script>
   <script src="card.js"></script>

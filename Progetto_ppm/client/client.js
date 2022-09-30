@@ -8,7 +8,7 @@ const onGameStart = () => {
 const onReadyPressed = (e) =>{
     //e.preventDefault(); non serve se si usa il form
     //TODO when button gets pressed
-    document.getElementById('ready').classList.add('disabled');
+    $('#ready').addClass('disabled');
 };
 
 const onTooManyClients = () =>{
