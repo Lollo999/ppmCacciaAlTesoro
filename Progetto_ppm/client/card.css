@@ -90,3 +90,29 @@
   background-color: #ffe0a3;
 }
   
+.scrollbar::-webkit-scrollbar {
+  background-color:#ffe0a3;
+  width:8px
+}
+
+/* background of the scrollbar except button or resizer */
+.scrollbar::-webkit-scrollbar-track {
+  background-color:#ffe0a3
+}
+.scrollbar::-webkit-scrollbar-track:hover {
+  background-color:#dcc391
+}
+
+/* scrollbar itself */
+.scrollbar::-webkit-scrollbar-thumb {
+  background-color:#babac0;
+  border-radius:16px;
+  border:1px solid #ffe0a3
+}
+.scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color:#a0a0a5;
+  border:0px solid #ffe0a3
+}
+
+/* set button(top and bottom of the scrollbar) */
+.scrollbar::-webkit-scrollbar-button {display:none}

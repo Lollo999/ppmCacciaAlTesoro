@@ -229,8 +229,10 @@ $(document).ready(function(){
         var body = document.createElement("div");
         body.classList.add("card-body");
         body.classList.add("end-card-body");
+        body.classList.add("scrollbar")
         body.appendChild(title);
         body.appendChild(desc);
+
         
 
 
