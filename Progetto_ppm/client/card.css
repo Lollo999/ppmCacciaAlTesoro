@@ -115,5 +115,7 @@
     border: solid 2px black;
     transition: all 0.3s ease-in-out;
  }
-
+.icon{
+  font-size:130px;
+}
   
