@@ -146,8 +146,11 @@ $(document).ready(function(){
         allcardslist.push(qst["code"]);
         for(let i = 0; i< CARDS_NUMBER+1; i++){
             if(i == cardnumber ){
-                $('#ans'+i).text("Risposta corretta");
+
+                $('#ans'+i).text("risposta corretta")
                 $('#im'+i).addClass('correct');
+                $('#check'+i).removeClass('hide');
+                $('#cross'+i).addClass('hide');
             }else{
                 $('#im'+i).removeClass('correct');
                 var rand = Math.floor(Math.random()*(listaopere.length-1))+1;
@@ -156,7 +159,9 @@ $(document).ready(function(){
                 }
                 allcardslist.push(rand);
                 $('#im'+i).attr('src', getImageUrl(rand));
-                $('#ans'+i).text("Risposta errata");
+                $('#ans'+i).text("risposta sbagliata")
+                $('#check'+i).addClass('hide');
+                $('#cross'+i).removeClass('hide');
             }
             
         }
@@ -190,6 +195,8 @@ $(document).ready(function(){
   const onWait = () => {
     console.log('wait command received');
     $('#wait').removeClass('hide');
+    $('row1').addClass("p-5");
+    $('row2').addClass("p5");
     $('#questions').addClass('hide');
     $('#exit_b').addClass('hide');
   };
@@ -221,7 +228,8 @@ $(document).ready(function(){
   function start_game(){
     //buttonClick();  //start game
     $('#next').trigger('click');//preme il tasto next
-
+    $('row1').removeClass("p-5");
+    $('row2').removeClass("p5");
     //start timer
     gameTime = 0;
     startInterval();
