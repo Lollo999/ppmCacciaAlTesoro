@@ -24,23 +24,20 @@
       <a href="index.html" class="btn btn-dark" role="button"><i class="bi bi-box-arrow-right"></i></i></a>
     </div>
   </div>
-  <div class="container text-center">
+  <div id="questions_wrap" class="container text-center">
     <div id="questions">
       <div class="row">
         <div class="d-flex justify-content-end">
 
-          <div id="timer" class="py-2 px-4 container-fluid puff-in-top">Tempo trascorso: 00 secondi</div>
+          <div id="timer" class="py-2 px-4 container-fluid puff-in-top color-text">Tempo trascorso: 00 secondi</div>
         </div>
       </div>
-      <div class="row justify-content-md-center height-20">
-        <div class="col-6 m-2 mt-0 container-fluid" id="question-text">
-        
-          Questo box conterrà il quesito dell'indovinello, es:
-          Una bambina cade da una scala con 300 gradini, ma si rialza senza un graffio. Com'è possibile?
-          (non è la Cagnotto da piccola)
+      <div class="row justify-content-center height-40">
+        <div id="wrap_question" class="col-6 m-2 mt-0 container-fluid color-heavy">
+          <h3 id="question-text" ></h3>
         </div>
       </div>
-      <div class="row ">
+      <div id="wrap_cards" class="row justify-content-center">
         <div class="col pt-3 slide-in-left">
           <div class="flip">
             <div class="card">
@@ -185,8 +182,8 @@
     <div class="col-xl-10">
     <div id="row1" class="row color-text justify-content-center">
       <div id="wait" class="hide container-fluid bounce-top">
-        <h2> In attesa degli altri giocatori</h2>
-        <img class="img-fluid " src="loading.gif" alt="This will display an animated GIF" />
+        <h2 class="text text-center"> In attesa degli altri giocatori</h2>
+        <img class=" mx-auto d-block img-fluid" src="loading.gif" alt="This will display an animated GIF" />
       </div>
     </div>
     <div id ="row2" class="row color-text justify-content-center">
@@ -201,7 +198,7 @@
     </div>
     </div>
     <div id="disc" class=" hide shake-horizontal">
-      <h1 class="color-heavy ">L'avversario si è disconnesso prima di completare le domande, hai vinto</h1>
+      <h1 class="color-heavy text-center">L'avversario si è disconnesso prima di completare le domande, hai vinto</h1>
     </div>
     <!--<div id="exit_b" class=" hide">
       <button id="exit" class="btn btn-secondary btn-lg"> Exit </button>
