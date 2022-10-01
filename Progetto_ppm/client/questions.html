@@ -28,18 +28,20 @@
     <div id="questions">
       <div class="row">
         <div class="d-flex justify-content-end">
-          <div id="timer" class="py-2 px-4 container-fluid">Tempo trascorso: 00 secondi</div>
+
+          <div id="timer" class="py-2 px-4 container-fluid puff-in-top">Tempo trascorso: 00 secondi</div>
         </div>
       </div>
       <div class="row justify-content-md-center height-20">
         <div class="col-6 m-2 mt-0 container-fluid" id="question-text">
+        
           Questo box conterrà il quesito dell'indovinello, es:
           Una bambina cade da una scala con 300 gradini, ma si rialza senza un graffio. Com'è possibile?
           (non è la Cagnotto da piccola)
         </div>
       </div>
-      <div class="row">
-        <div class="col pt-3">
+      <div class="row ">
+        <div class="col pt-3 slide-in-left">
           <div class="flip">
             <div class="card">
               <div class="face front">
@@ -63,7 +65,7 @@
             </div>
           </div>
         </div>
-        <div class="col pt-3">
+        <div class="col pt-3 slide-in-tl">
           <div class="flip">
             <div class="card">
               <div class="face front">
@@ -87,7 +89,7 @@
             </div>
           </div>
         </div>
-        <div class="col pt-3">
+        <div class="col pt-3 slide-in-top">
           <div class="flip">
             <div class="card">
               <div class="face front">
@@ -111,7 +113,7 @@
             </div>
           </div>
         </div>
-        <div class="col pt-3">
+        <div class="col pt-3 slide-in-tr">
           <div class="flip">
             <div class="card">
               <div class="face front">
@@ -135,7 +137,7 @@
             </div>
           </div>
         </div>
-        <div class="col pt-3">
+        <div class="col pt-3 slide-in-right">
           <div class="flip">
             <div class="card">
               <div class="face front">
@@ -162,12 +164,13 @@
         </div>
         <div class="row">
           <div class="d-flex justify-content-end">
+
             <div class="p-5 container-fluid">
-              <div id="next_wrap">
+              <div id="next_wrap" class="puff-in-bottom">
                 <button type="button" id="next" class="csbutton style-2">Prossima Domanda</button>
                 
               </div>
-              <div id="end_wrap" class="hide">
+              <div id="end_wrap" class="hide puff-in-bottom">
                 <button type="button" id="end" class="csbutton style-2 disabled">Fine</button>
               </div>
             </div>
@@ -175,27 +178,29 @@
         </div>
       </div>
     </div>
+
   </div>
   <div class="container-fluid">
   <div class="row justify-content-center"> 
     <div class="col-xl-10">
     <div id="row1" class="row color-text justify-content-center">
-      <div id="wait" class="hide">
+      <div id="wait" class="hide container-fluid bounce-top">
         <h2> In attesa degli altri giocatori</h2>
         <img class="img-fluid " src="loading.gif" alt="This will display an animated GIF" />
       </div>
     </div>
     <div id ="row2" class="row color-text justify-content-center">
-      <h4 id="replytest"></h4>
+      <div id ="res" class="hide color-text px-5 py-2 puff-in-top ">
+        <h4 id="replytest"></h4>
+      </div>
       <div class="container-fluid py-2">
         <h4 class="font-weight-light"></h4>
         <div id="cardsflex" class="d-flex flex-row flex-nowrap">
-            
+        
         </div>
     </div>
-
     </div>
-    <div id="disc" class=" hide ">
+    <div id="disc" class=" hide shake-horizontal">
       <h1 class="color-heavy ">L'avversario si è disconnesso prima di completare le domande, hai vinto</h1>
     </div>
     <!--<div id="exit_b" class=" hide">

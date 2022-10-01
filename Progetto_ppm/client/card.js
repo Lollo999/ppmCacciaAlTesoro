@@ -66,6 +66,8 @@ $(document).ready(function(){
             if($(this).find('img').hasClass('correct')==true){
                 answerGiven = true; 
                 $('#next').removeClass('disabled')
+                $('#card').removeClass('slide-in-left')
+                $('#card').addClass('slide-in-left')
                 correct++;
             }else{
                 wrong++;
@@ -209,6 +211,9 @@ $(document).ready(function(){
     $('#questions').addClass('hide');
     $('#exit_b').removeClass('hide');
 
+    $('#res').removeClass('hide');
+
+
     var cards_flexbox = document.getElementById("cardsflex");
 
     for(i = 0; i<QUESTIONS_NUMBER+1; i++){
@@ -246,6 +251,7 @@ $(document).ready(function(){
         card.appendChild(body);
         cards_flexbox.appendChild(card)
     }
+
   };
   
   sock.on("results", onResults);
@@ -287,6 +293,7 @@ const onDisc = () =>{
     $('#next_wrap').addClass('hide');
     $('#end_wrap').addClass('hide');
     $('#exit_b').removeClass('hide');
+    
 }
 
 sock.on("disc_page", onDisc);
