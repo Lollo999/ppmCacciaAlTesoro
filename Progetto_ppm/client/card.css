@@ -42,6 +42,7 @@
   }
   .flip .card .back {
     padding-top: 10%;
+    margin-left: 0px;
     -webkit-transform: rotatey(-180deg);
             transform: rotatey(-180deg);
     position: absolute;
@@ -60,3 +61,58 @@
   .correct{
     width: 100%;
   }
+
+.icon{
+  font-size:130px;
+}
+.color-green{
+  color: green;
+}
+.color-red{
+  color:darkred;
+}
+
+.end-card{
+  width: 35rem;
+  color: #6a2634;
+  background-color: #e18237;
+}
+
+.end-card-img{
+  height: 15rem;
+  overflow: hidden;
+  object-fit: cover;
+}
+
+.end-card-body{
+  height: 15rem;
+  overflow: auto;
+  background-color: #ffe0a3;
+}
+  
+.scrollbar::-webkit-scrollbar {
+  background-color:#ffe0a3;
+  width:8px
+}
+
+/* background of the scrollbar except button or resizer */
+.scrollbar::-webkit-scrollbar-track {
+  background-color:#ffe0a3
+}
+.scrollbar::-webkit-scrollbar-track:hover {
+  background-color:#dcc391
+}
+
+/* scrollbar itself */
+.scrollbar::-webkit-scrollbar-thumb {
+  background-color:#babac0;
+  border-radius:16px;
+  border:1px solid #ffe0a3
+}
+.scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color:#a0a0a5;
+  border:0px solid #ffe0a3
+}
+
+/* set button(top and bottom of the scrollbar) */
+.scrollbar::-webkit-scrollbar-button {display:none}
