@@ -89,7 +89,48 @@
   overflow: auto;
   background-color: #ffe0a3;
 }
-  
+
+@media only screen and (max-width: 1200px) {
+  .flip .card {
+          width: 93px;
+          height: 150px;
+          -webkit-transform-style: preserve-3d;
+          -webkit-transition: 0.5s;
+          transform-style: preserve-3d;
+          transition: 0.5s;
+          background-color: #e18237;
+
+  }
+  .flip .card .front {
+          position: absolute;
+          width: 93px;
+          z-index: 1;
+  }
+
+  .flip .card .front {
+          overflow: hidden;
+          width: 93px;
+          height: 100%;
+  }
+
+  .flip .card .img {
+          position: relative;
+          width: 93px;
+          height: 150px;
+          z-index: 1;
+          border: 2px;
+  }
+
+  .inner {
+          height: 150px;
+          width: 93px;
+  }
+  .icon{
+    font-size:65px;
+  }
+
+}
+
 .scrollbar::-webkit-scrollbar {
   background-color:#ffe0a3;
   width:8px
