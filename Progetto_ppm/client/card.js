@@ -64,7 +64,8 @@ $(document).ready(function(){
         if(!answerGiven){//se la risposta è già stata data, non fare nulla 
             $(this).find('.card').toggleClass('flipped');
             if($(this).find('img').hasClass('correct')==true){
-                answerGiven = true; 
+                answerGiven = true;
+                $('#wrap_question').removeClass('puff-in-top')
                 $('#next').removeClass('disabled')
                 $('#card').removeClass('slide-in-left')
                 $('#card').addClass('slide-in-left')
@@ -178,9 +179,8 @@ $(document).ready(function(){
             }
             return false
         }
-
         $('#question-text').text(parsedtext)
-
+        $('#wrap_question').addClass('puff-in-top')
         $('#next').addClass('disabled')
         currentQuestion++;
   };
@@ -210,7 +210,7 @@ $(document).ready(function(){
     $('#wait').addClass('hide');
     $('#questions').addClass('hide');
     $('#exit_b').removeClass('hide');
-
+    $('#cardsflex').addClass('puff-in-top');
     $('#res').removeClass('hide');
 
 
