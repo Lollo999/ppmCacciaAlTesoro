@@ -171,6 +171,7 @@ $(document).ready(function(){
     $('row2').addClass("p5");
     $('#questions').addClass('hide');
     $('#exit_b').addClass('hide');
+    $('#pages').removeClass('hide');
   };
   
   sock.on("wait", onWait);
@@ -182,6 +183,7 @@ $(document).ready(function(){
     $('#exit_b').removeClass('hide');
     $('#cardsflex').addClass('puff-in-top');
     $('#res').removeClass('hide');
+    $('#pages').removeClass('hide');
 
 
     var cards_flexbox = document.getElementById("cardsflex");
@@ -263,6 +265,7 @@ const onDisc = () =>{
     $('#next_wrap').addClass('hide');
     $('#end_wrap').addClass('hide');
     $('#exit_b').removeClass('hide');
+    $('#pages').removeClass('hide');
     
 }
 

@@ -177,49 +177,52 @@ app.get('/admin', function (req, res) {
 });
 
 app.post('/questions', function (req, res) {
-    if (number < n_player) {
-        //crea sessione per il client
-        s = req.session;
-        s.userid = req.body.username;
-        sessionslist.push(s);
-        console.log(req.session);
-        resList.push(res);
-        number++;
-        if (number == n_player) {
-            for (var i = 0; i < resList.length; i++) {
-                resList[i].sendFile(path.resolve(clientPath + "/questions.html"));
-            }
+    //crea sessione per il client
+    s = req.session;
+    s.userid = req.body.username;
+    sessionslist.push(s);
+    console.log(req.session);
+    resList.push(res);
+    number++;
+    if (number == n_player) {
+        for (var i = 0; i < resList.length; i++) {
+            resList[i].sendFile(path.resolve(clientPath + "/questions.html"));
         }
-    } else {
-        res.send("troppi client connessi")
-        console.log("too many clients sent");
-        //TODO risolvere il problema di attesa risposta dopo la richiesta tramite post
-
+    }
+    if(number > n_player){
+            resList[resList.length-1].sendFile(path.resolve(clientPath + "/tooMany.html"));
+            resList.pop()
+            number--;
     }
 });
 
-
 const io = socketio(server);
-
+var n_disc=0;
 
 io.on('connection', (sock) => {
     console.log('user connesso');
 
     sock.on('disconnect', function () {
         console.log('user disconnected');
-        if(gameTerminated<n_player){
+        n_disc++;
+        if (gameTerminated < n_player) {
             io.emit("disc_page");
             console.log('pagina reset');
+
+        }
+            gameTerminated = 0;
+            for (let i = gameResult.length; i > 0; i--) {
+                gameResult.pop();
             }
-        number=0;
-        gameTerminated=0;
-        for (let i = gameResult.length; i > 0; i--) {
-            gameResult.pop();
-          }
-        for (let i = resList.length; i > 0; i--) {
-            resList.pop();
-          }
+            for (let i = resList.length; i > 0; i--) {
+                resList.pop();
+            }
+        if(n_disc>=n_player){
+            number=0
+            n_disc=0
+        }
     });
+
 
     sock.on('ready', (req, res) => {
         number++;
