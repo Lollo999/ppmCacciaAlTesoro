@@ -234,6 +234,7 @@ $(document).ready(function(){
     listaopere = opere;
     QUESTIONS_NUMBER = questions_number;
     CARDS_NUMBER = cards_number;
+    
 
     //TODO CLIENTS_NUMBER = clients_number
 
