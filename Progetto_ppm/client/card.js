@@ -1,34 +1,4 @@
-//creo una breve lista di domande e opere come risposta
 
-
-/*var listaopere = [
-    "images/gioconda.jpeg",
-    "images/opera1.jpg",
-    "images/opera2.jpg",
-    "images/opera3.jpg",
-    "images/opera4.jpg",
-    "images/opera5.jpg",
-    "images/opera6.jpg",
-    "images/opera7.jpg",
-    "images/opera8.jpg",
-    "images/opera9.jpg",
-    "images/opera10.jpg"
-]
-
-var listaQuestions = [
-    {question: "La Gioconda (ce la riprenderemo comunque)", risposta: "images/gioconda.jpeg"},
-    {question: "Deposizione caravaggio", risposta: "images/opera1.jpg"},
-    {question: "Quadro strano colorato (non mi ricordo il nome sry)", risposta: "images/opera2.jpg"},
-    {question: "Matteo e l'angelo", risposta: "images/opera3.jpg"},
-    {question: "Le opere della misericordia", risposta: "images/opera4.jpg"},
-    {question: "Deposizione Borghese (si ho cercato raffaello su google immagini)", risposta: "images/opera5.jpg"},
-    {question: "Sposalizio della vergine", risposta: "images/opera6.jpg"},
-    {question: "Il cristo ", risposta: "images/opera7.jpg"},
-    {question: "Madonna del cardellino (quella con i bambini sotto)", risposta: "images/opera8.jpg"},
-    {question: "Venere di Botticelli", risposta: "images/opera9.jpg"},
-    {question: "David, questa la sai per forza oh", risposta: "images/opera10.jpg"}
-
-]*/
 var listaopere = [];
 var listaQuestions = [];
 var shuffledQuestions = [];
