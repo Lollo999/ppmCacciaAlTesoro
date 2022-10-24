@@ -1,11 +1,12 @@
-
+//javascript relativo alla pagina questions.html
+//variabili globali della pagina, liste elementi ottenute dal server, impostazioni e stato del gioco
 var listaopere = [];
 var listaQuestions = [];
 var shuffledQuestions = [];
 
 const sock = io();
 
-sock.emit("getData");
+sock.emit("getData");   //invia richiesta al server per ottenere i dati prima di creare la pagina
 
 var QUESTIONS_NUMBER = 5;
 var CARDS_NUMBER = 5;
@@ -17,61 +18,61 @@ var interval
 var gameTime = 0
 var currentQuestion = 0;
 
-function startInterval(){
+function startInterval(){   //avvio del timer di gioco
     interval = setInterval(function(){
         gameTime++; //aumenta i secondi trascorsi
         $('#timer').text("Tempo trascorso: "+gameTime+" secondi")
     }, 1000);
 };
 
-function stopInterval(){
+function stopInterval(){    //termine timer di gioco (rimuove il processo timer)
     clearInterval(interval);
 }
 
 
-$(document).ready(function(){
-    $('.flip').click(function(){ 
+$(document).ready(function(){   //quando la pagina è stata caricata, definisce le funzioni e gli action listener (observer) 
+    $('.flip').click(function(){    //azione da svolgere quando si effettua un click su una carta
         if(!answerGiven){//se la risposta è già stata data, non fare nulla 
-            $(this).find('.card').toggleClass('flipped');
-            if($(this).find('img').hasClass('correct')==true){
+            $(this).find('.card').toggleClass('flipped');   //gira la carta
+            if($(this).find('img').hasClass('correct')==true){  //controlla se la risposta è corretta
                 answerGiven = true;
-                $('#wrap_question').removeClass('puff-in-top')
+                $('#wrap_question').removeClass('puff-in-top')  //gestione animazioni
                 $('#next').removeClass('disabled')
                 $('#card').removeClass('slide-in-left')
                 $('#card').addClass('slide-in-left')
-                correct++;
+                correct++;  //incrementa il numero di risposte corrette
             }else{
-                wrong++;
+                wrong++;    //altrimenti aumenta il numero di risposte sbagliate
             }
-            //check if game is over
-            if(correct == QUESTIONS_NUMBER-1){
-                $('#next').on('click', function(event) {
+            //controlla se il gioco è terminato (tutte le domande hanno avuto risposta)
+            if(correct == QUESTIONS_NUMBER-1){  //ultima domanda
+                $('#next').on('click', function(event) {   //cambia le funzionalità del tasto next
                     $('#next_wrap').addClass('hide');
                     $('#end_wrap').removeClass('hide');
                     console.log("penultima domanda");
                   });
             }
             if(correct == QUESTIONS_NUMBER){
-                stopInterval();
-                $('#end').removeClass('disabled');
+                stopInterval(); //ferma il timer
+                $('#end').removeClass('disabled');  
             }
         }
     });
-    $('#end').on('click', function(event) {
+    $('#end').on('click', function(event) { //invia al server i dati della partita
         sock.emit("gamedata", wrong, gameTime);
       });
     
-    function buttonClick(){
+    function buttonClick(){ //viene richiamata ogni volta che viene premuto il tasto next
         let flips = false;
-        answerGiven = false; //r
-        $('.flip').each(function(index){
+        answerGiven = false; 
+        $('.flip').each(function(index){    //controlla se c'è almeno una carta girata
             card=$(this).find('.card');
             if(card.hasClass('flipped')){
                 $(this).find('.card').toggleClass('flipped');
                 flips = true
             }
         });
-        if(flips){
+        if(flips){  //aggiunge un delay prima di eseguire la funzione nextClicked (permette alle carte di tornare in posizione)
             setTimeout(
                 function() 
                 {
@@ -82,23 +83,15 @@ $(document).ready(function(){
         }
     }
 
-    $('#next').click(buttonClick);
-
-    /*buttonClick();  //start game
-
-    //start timer
-    gameTime = 0;
-    startInterval();
-    spostato al termine della risposta del server
-    */
-
+    $('#next').click(buttonClick);  //listener per click bottone #next
 
   });
 
-  function nextClicked(){
+  function nextClicked(){   //funzione nextclicked richiamata da buttonClick
+    //gestisce la logica di scelta delle carte
 
     if(currentQuestion == 0){
-        // copia e randomizza array domande
+        // copia e randomizza lista delle domande
         shuffledQuestions = listaQuestions.slice();
         for(i = 0; i<listaQuestions.length*5; i++){
             x = Math.floor(Math.random()*listaQuestions.length);
@@ -108,23 +101,22 @@ $(document).ready(function(){
             shuffledQuestions[y] = t;
         }
     }
-        //let x = Math.floor(Math.random()*listaQuestions.length);
-        let qst = shuffledQuestions[currentQuestion];
-        let parsedtext = qst["testo"];
+        let qst = shuffledQuestions[currentQuestion];   //estrae la carta usando la sequenza domande
+        let parsedtext = qst["testo"];         //estrae testo e immagine dalla carta
         let imageurl = qst["image_url"];
-        //scegli carta random tra 0-4
-        var cardnumber = Math.floor(Math.random()*CARDS_NUMBER+1);
+
+        var cardnumber = Math.floor(Math.random()*CARDS_NUMBER+1); //sceglie una posizione casuale in cui inserire la carta
         $('#im'+cardnumber).attr('src', imageurl)
         var allcardslist = [];
-        allcardslist.push(qst["code"]);
-        for(let i = 0; i< CARDS_NUMBER+1; i++){
-            if(i == cardnumber ){
+        allcardslist.push(qst["code"]); //inserisce il codice della domanda in una coda
+        for(let i = 0; i< CARDS_NUMBER+1; i++){ //itera su tutte le carte della pagina (5)
+            if(i == cardnumber ){   //se la carta è quella in cui è presente la risposta corretta, imposta diversamente
 
                 $('#ans'+i).text("risposta corretta")
                 $('#im'+i).addClass('correct');
                 $('#check'+i).removeClass('hide');
                 $('#cross'+i).addClass('hide');
-            }else{
+            }else{  //altrimenti estrae una carta random, non presente tra quelle già estratte e la inserisce nella carta
                 $('#im'+i).removeClass('correct');
                 var rand = Math.floor(Math.random()*(listaopere.length-1))+1;
                 while(allcardslist.includes(rand) || !getImageUrl(rand)){ //finchè non si trova una carta non presente
@@ -141,7 +133,7 @@ $(document).ready(function(){
 
         console.log(allcardslist);
 
-        function getImageUrl(rand){
+        function getImageUrl(rand){ //restituisce l'url di un'immagine a partire da un numero casuale
             for(i = 0; i<listaopere.length; i++){
                 if(listaopere[i]["code"]==rand){
                     return listaopere[i]["image_url"];
@@ -164,7 +156,7 @@ $(document).ready(function(){
     sock.emit('gamedata'); 
   }
 
-  const onWait = () => {
+  const onWait = () => {    //attesa giocatori
     console.log('wait command received');
     $('#wait').removeClass('hide');
     $('row1').addClass("p-5");
@@ -176,7 +168,7 @@ $(document).ready(function(){
   
   sock.on("wait", onWait);
 
-  const onResults = () => {
+  const onResults = () => {     //risultati partita
     console.log('result command received');
     $('#wait').addClass('hide');
     $('#questions').addClass('hide');
@@ -188,7 +180,7 @@ $(document).ready(function(){
 
     var cards_flexbox = document.getElementById("cardsflex");
 
-    for(i = 0; i<QUESTIONS_NUMBER+1; i++){
+    for(i = 0; i<QUESTIONS_NUMBER+1; i++){  //inserisce delle card nella pagina finale con descrizione delle opere relative alle risposte corrette
         //crea nuova carta e inseriscila nel flexbox
         var img = document.createElement("img");
         img.src = shuffledQuestions[i]["image_url"];
@@ -226,7 +218,7 @@ $(document).ready(function(){
 
   };
   
-  sock.on("results", onResults);
+  sock.on("results", onResults);    //quando il server restituisce i risultati della partita
 
 
   sock.on("res-getData",function(opere, questions,  clients_number, cards_number, questions_number){
@@ -269,4 +261,4 @@ const onDisc = () =>{
     
 }
 
-sock.on("disc_page", onDisc);
+sock.on("disc_page", onDisc);   //quando un'altro utente si disconnette dalla partita, il server invia disc_page

@@ -1,3 +1,6 @@
+  /*Stylesheet per la pagina questions.html definisce l'animazione di rotazione delle carte 
+  ed altri componenti*/
+  
   .flip {
     -webkit-perspective: 800;   
             perspective: 800;
