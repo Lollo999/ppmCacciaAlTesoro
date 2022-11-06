@@ -100,7 +100,7 @@ var gameResult = [] //contiene il riferimento al client e il risultato
 app.post('/upload', function (req, res) {
     //load file and redirect per l'immagine nell'inserimento di un'opera 
     console.log(req.files);
-    const { image } = req.files;//se non ci sono gli spazi intorno ad image si rompe tutto DKDC
+    const { image } = req.files;
     console.log(image);
     //if(!image) return res.sendStatus(400);
     console.log(clientPath + '/images/' + image.name);
@@ -241,15 +241,11 @@ io.on('connection', (sock) => {
         gameResult.push([sock, wrong, gameTime])
 
         if (gameTerminated < n_player) {
-            //resList[0].sendFile(path.resolve(clientPath+"/waiting_room.html"));
             gameResult[0][0].emit("wait");
             console.log('wait sent');
         }
         if (gameTerminated == n_player) {
-            //redirect clients with resList
-            //for(var i = 0; i<resList.length; i++){
-            //resList[i].sendFile(path.resolve(clientPath+"/result_screen.html"));
-            // }
+
             io.emit("results");
 
             var bestSock = getHighestScoreSocket(gameResult)
