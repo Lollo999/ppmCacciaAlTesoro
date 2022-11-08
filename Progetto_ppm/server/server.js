@@ -12,7 +12,7 @@ const mysql = require('mysql');
 const fileUpload = require('express-fileupload');
 const { query } = require('express');
 
-const n_player = 2;
+var n_player = 2;
 
 
 //connessione al database: inserire qui i dati corretti per la connessione
@@ -179,6 +179,12 @@ app.get('/admin', function (req, res) {
 });
 
 app.post('/questions', function (req, res) {    //funzione richiamata quando un client accede alla pagina questions
+    if(number == 0){
+        con.query("SELECT * FROM settings", function (err, result, fields) {
+            if (err) throw err;
+            n_player = result[0].numero_client
+        })
+    }
     //crea sessione per il client
     s = req.session;
     s.userid = req.body.username;
@@ -200,6 +206,9 @@ app.post('/questions', function (req, res) {    //funzione richiamata quando un 
 
 const io = socketio(server);
 var n_disc=0;
+
+
+
 
 io.on('connection', (sock) => {
     console.log('user connesso');
@@ -226,14 +235,15 @@ io.on('connection', (sock) => {
     });
 
 
-    sock.on('ready', (req, res) => {    //client pronto alla partita
+    sock.on('ready', (req, res) => {  //client pronto alla partita
         number++;
         console.log('ready button pressed: ' + number);
         if (number == n_player) {
             io.emit("startGame");
             console.log('startGame sent');
         }
-    })
+    });
+    
     sock.on('gamedata', function (wrong, gameTime) {  //aggiunge al sock appena connesso la gestione dell'evento
         gameTerminated++;
         console.log("game data receivedb by:");
