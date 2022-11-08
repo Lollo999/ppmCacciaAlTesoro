@@ -1,3 +1,5 @@
+//questo file js è il file che contiene la logica del server node
+
 const http = require('http');
 const express = require('express');
 const sessions = require('express-session');
@@ -13,12 +15,12 @@ const { query } = require('express');
 var n_player = 2;
 
 
-//connessione al database
+//connessione al database: inserire qui i dati corretti per la connessione
 var con = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "",
-    database: "ppmdb"
+    host: "localhost",  //indirizzo host
+    user: "root",   //nome user del db
+    password: "",   //password
+    database: "ppmdb"     //nome del db
 });
 
 con.connect(function (err) {
@@ -51,7 +53,7 @@ app.use(cookieParser());
 
 app.use(fileUpload());
 
-function getHighestScoreSocket(gameResult) {
+function getHighestScoreSocket(gameResult) {//in base ai gameresults calcola il socket vincitore
     var temp = gameResult.slice();
     var best = 100
     var bestSock = 0
@@ -96,9 +98,9 @@ var gameTerminated = 0;
 var gameResult = [] //contiene il riferimento al client e il risultato
 
 app.post('/upload', function (req, res) {
-    //load file and redirect
+    //load file and redirect per l'immagine nell'inserimento di un'opera 
     console.log(req.files);
-    const { image } = req.files;//apparentemente se non ci sono gli spazi intorno ad image si rompe tutto DKDC
+    const { image } = req.files;
     console.log(image);
     //if(!image) return res.sendStatus(400);
     console.log(clientPath + '/images/' + image.name);
@@ -114,7 +116,7 @@ app.post('/upload', function (req, res) {
 });
 
 
-app.post('/uploadQuestion', function (req, res) {
+app.post('/uploadQuestion', function (req, res) {      //esegue la query di inserimento di una nuova domanda(pannello admin)
     var sql = "INSERT INTO indovinello (testo, opera) VALUES( ?, ? )";
     con.query(sql, [req.body.question, req.body.selectOpera], function (err, result) {
         if (err) throw err;
@@ -124,7 +126,7 @@ app.post('/uploadQuestion', function (req, res) {
     res.sendFile(path.resolve(clientPath + "/admin.html"));
 });
 
-app.post('/uploadSettings', function (req, res) {
+app.post('/uploadSettings', function (req, res) {   //esegue query aggiornamento settings (pannello admin)
     var sql = "UPDATE settings SET numero_domande = ?, numero_client = ?";
     con.query(sql, [req.body.questionsPerGame, req.body.clientsNumber], function (err, result) {
         if (err) throw err;
@@ -133,7 +135,7 @@ app.post('/uploadSettings', function (req, res) {
     res.sendFile(path.resolve(clientPath + "/admin.html"));
 });
 
-app.post('/updateOpera', function (req, res) {
+app.post('/updateOpera', function (req, res) {  //esegue query aggiornamento opera (pannello admin)
     console.log(req.body);
     if (req.body.send == "update") {
         var sql = "UPDATE opera SET description = ?, name = ? WHERE code = ?";
@@ -152,7 +154,7 @@ app.post('/updateOpera', function (req, res) {
     res.sendFile(path.resolve(clientPath + "/admin.html"));
 });
 
-app.post('/updateQuestion', function (req, res) {
+app.post('/updateQuestion', function (req, res) {   //aggiornamento domanda 
     if (req.body.send == "update") {
         var sql = "UPDATE indovinello SET testo = ?, opera = ? WHERE code = ?";
         con.query(sql, [req.body.testo, req.body.selectOpera, req.body.code], function (err, result) {
@@ -176,7 +178,7 @@ app.get('/admin', function (req, res) {
     res.sendFile(path.resolve(clientPath + "/admin.html"));
 });
 
-app.post('/questions', function (req, res) {
+app.post('/questions', function (req, res) {    //funzione richiamata quando un client accede alla pagina questions
     if(number == 0){
         con.query("SELECT * FROM settings", function (err, result, fields) {
             if (err) throw err;
@@ -190,7 +192,7 @@ app.post('/questions', function (req, res) {
     console.log(req.session);
     resList.push(res);
     number++;
-    if (number == n_player) {
+    if (number == n_player) {   //quando tutti i client sono connessi avvia la partita servendo il file questions.html
         for (var i = 0; i < resList.length; i++) {
             resList[i].sendFile(path.resolve(clientPath + "/questions.html"));
         }
@@ -211,7 +213,7 @@ var n_disc=0;
 io.on('connection', (sock) => {
     console.log('user connesso');
 
-    sock.on('disconnect', function () {
+    sock.on('disconnect', function () { //quando il client si disconnette resetta il server
         console.log('user disconnected');
         n_disc++;
         if (gameTerminated < n_player) {
@@ -233,15 +235,15 @@ io.on('connection', (sock) => {
     });
 
 
-    /*sock.on('ready', (req, res) => {
-
+    sock.on('ready', (req, res) => {  //client pronto alla partita
         number++;
         console.log('ready button pressed: ' + number);
         if (number == n_player) {
             io.emit("startGame");
             console.log('startGame sent');
         }
-    })*/
+    });
+    
     sock.on('gamedata', function (wrong, gameTime) {  //aggiunge al sock appena connesso la gestione dell'evento
         gameTerminated++;
         console.log("game data receivedb by:");
@@ -249,15 +251,11 @@ io.on('connection', (sock) => {
         gameResult.push([sock, wrong, gameTime])
 
         if (gameTerminated < n_player) {
-            //resList[0].sendFile(path.resolve(clientPath+"/waiting_room.html"));
             gameResult[0][0].emit("wait");
             console.log('wait sent');
         }
         if (gameTerminated == n_player) {
-            //redirect clients with resList
-            //for(var i = 0; i<resList.length; i++){
-            //resList[i].sendFile(path.resolve(clientPath+"/result_screen.html"));
-            // }
+
             io.emit("results");
 
             var bestSock = getHighestScoreSocket(gameResult)
@@ -281,12 +279,13 @@ io.on('connection', (sock) => {
     });
 
     //ADMIN LISTENERS
-
+    //gestiscono le funzionalotà di interazione del pannello admin
+    //get degli elementi
     sock.on("admin-getOpere", function () {
         con.query("SELECT * FROM opera", function (err, result, fields) {
             if (err) throw err;
             sock.emit("admin-resgetOpere", result);
-            //console.log(result);
+            
         });
     });
 
@@ -295,7 +294,7 @@ io.on('connection', (sock) => {
             if (err) throw err;
 
             sock.emit("admin-resgetQuestions", result);
-            //console.log(result);
+        
         });
     });
 
@@ -308,10 +307,8 @@ io.on('connection', (sock) => {
     });
 
 
-
+    //quando un client fa richiesta il server esegue le query e invia le informazioni contenute del db al client
     sock.on("getData", function () {
-        //TODO query lista opere e lista questions
-        //TODO send reply to client
         var o;
         var q;
         var clients_number;
@@ -357,10 +354,6 @@ io.on('connection', (sock) => {
 
             nestedQuery2();
         });
-
-
-
-        //sock.emit('res-getData',o, q);
 
     });
 
