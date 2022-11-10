@@ -261,13 +261,13 @@ io.on('connection', (sock) => {
             var bestSock = getHighestScoreSocket(gameResult)
             for (i = 0; i < gameResult.length; i++) {
                 s = gameResult[i][0]
-                var str = "GG hai trovato il tesoro, hai sbagliato " + gameResult[i][1] + " volte"
+                var str = "Hai trovato il tesoro, hai sbagliato " + gameResult[i][1] + " volte"
                 if (s == bestSock) {
-                    str = str + "\n ma il tuo avversario è più nabbo quindi HAI VINTO"
+                    str = str + "\n HAI VINTO"
                     console.log("vinto" + gameResult[i][1])
                     s.send(str)
                 } else {
-                    str = str + "\n quindi HAI PERSO, F per te"
+                    str = str + "\n HAI PERSO"
                     console.log("perso" + gameResult[i][1])
                     s.send(str)
                 }
