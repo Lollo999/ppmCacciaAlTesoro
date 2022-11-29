@@ -3,6 +3,8 @@
 var listaopere = [];
 var listaQuestions = [];
 var shuffledQuestions = [];
+var wrongAnswers = [];  //contiene le risposte sbagliate
+var currentCards = new Array(6); // contiene le carte mostrate in quel momento
 
 const sock = io();
 
@@ -43,6 +45,9 @@ $(document).ready(function(){   //quando la pagina è stata caricata, definisce 
                 correct++;  //incrementa il numero di risposte corrette
             }else{
                 wrong++;    //altrimenti aumenta il numero di risposte sbagliate
+                c = gethtmlcardnumber($(this));
+                console.log(currentCards[c]);
+                wrongAnswers.push(currentCards[c]);
             }
             //controlla se il gioco è terminato (tutte le domande hanno avuto risposta)
             if(correct == QUESTIONS_NUMBER-1){  //ultima domanda
@@ -127,25 +132,50 @@ $(document).ready(function(){   //quando la pagina è stata caricata, definisce 
                 $('#ans'+i).text("risposta sbagliata")
                 $('#check'+i).addClass('hide');
                 $('#cross'+i).removeClass('hide');
+                currentCards[i]=rand;   //aggiorna le carte mostrate
             }
             
         }
 
         console.log(allcardslist);
 
-        function getImageUrl(rand){ //restituisce l'url di un'immagine a partire da un numero casuale
-            for(i = 0; i<listaopere.length; i++){
-                if(listaopere[i]["code"]==rand){
-                    return listaopere[i]["image_url"];
-                }
-            }
-            return false
-        }
         $('#question-text').text(parsedtext)
         $('#wrap_question').addClass('puff-in-top')
         $('#next').addClass('disabled')
         currentQuestion++;
   };
+
+  function getImageUrl(rand){ //restituisce l'url di un'immagine a partire da un numero casuale
+    for(i = 0; i<listaopere.length; i++){
+        if(listaopere[i]["code"]==rand){
+            return listaopere[i]["image_url"];
+        }
+    }
+    return false
+}
+
+  function getOpera(num){
+    for(j = 0; j<listaopere.length; j++){
+        if(listaopere[j]["code"]==num){
+            return listaopere[j];
+        }
+    }
+    return listaopere[0];
+  }
+
+  function gethtmlcardnumber(card){
+    if(card.hasClass('im1'))
+        return 1;
+    if(card.hasClass('im2'))
+        return 2;
+    if(card.hasClass('im3'))
+        return 3;
+    if(card.hasClass('im4'))
+        return 4;
+    if(card.hasClass('im5'))
+        return 5;
+
+  }
 
   sock.on('message',function(message){
     $('#replytest').text(message);
@@ -176,9 +206,10 @@ $(document).ready(function(){   //quando la pagina è stata caricata, definisce 
     $('#cardsflex').addClass('puff-in-top');
     $('#res').removeClass('hide');
     $('#pages').removeClass('hide');
+    $('#cardsAccordion').removeClass('hide');
 
 
-    var cards_flexbox = document.getElementById("cardsflex");
+    var cards_flexbox = document.getElementById("cardsflex-right");
 
     for(i = 0; i<QUESTIONS_NUMBER+1; i++){  //inserisce delle card nella pagina finale con descrizione delle opere relative alle risposte corrette
         //crea nuova carta e inseriscila nel flexbox
@@ -216,6 +247,43 @@ $(document).ready(function(){   //quando la pagina è stata caricata, definisce 
         cards_flexbox.appendChild(card)
     }
 
+
+    var cards_flexbox = document.getElementById("cardsflex-wrong");
+    wrongAnswers = [...new Set(wrongAnswers)];//rimuove duplicati dall'array delle risposte sbagliate
+
+    for(i = 0; i<wrong; i++){  //inserisce delle card nella pagina finale con descrizione delle opere relative alle risposte corrette
+        //crea nuova carta e inseriscila nel flexbox
+        var img = document.createElement("img");
+        img.src = getOpera(wrongAnswers[i])["image_url"];
+        img.classList.add("card-img-top");
+        img.classList.add("end-card-img")
+
+
+        var title = document.createElement("h5");
+        title.classList.add("card-title");
+        title.innerHTML = getOpera(wrongAnswers[i])["name"];
+        var desc = document.createElement("div");
+        desc.classList.add("card-text");
+        desc.innerHTML=getOpera(wrongAnswers[i])["description"];
+
+        var body = document.createElement("div");
+        body.classList.add("card-body");
+        body.classList.add("end-card-body");
+        body.classList.add("scrollbar")
+        body.appendChild(title);
+        body.appendChild(desc);
+
+
+        var card = document.createElement("div");
+        card.classList.add("card");
+        card.classList.add("end-card");
+        card.classList.add("m-2");
+        card.classList.add("border-dark");
+        card.classList.add("border-4");
+        card.appendChild(img);
+        card.appendChild(body);
+        cards_flexbox.appendChild(card)
+    }
   };
   
   sock.on("results", onResults);    //quando il server restituisce i risultati della partita

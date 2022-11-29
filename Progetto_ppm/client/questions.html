@@ -39,7 +39,7 @@
       </div>
       <div id="wrap_cards" class=" d-flex justify-content-around flex-wrap">
         <div class=" pt-3 slide-in-left p-3">
-          <div class="flip">
+          <div class="flip im1">
             <div class="card ">
               <div class="face front">
                 <div class="inner">
@@ -65,7 +65,7 @@
           </div>
         </div>
         <div class=" pt-3 slide-in-tl p-3">
-          <div class="flip">
+          <div class="flip im2">
             <div class="card">
               <div class="face front">
                 <div class="inner">
@@ -91,7 +91,7 @@
           </div>
         </div>
         <div class=" pt-3 slide-in-top p-3">
-          <div class="flip">
+          <div class="flip im3">
             <div class="card">
               <div class="face front">
                 <div class="inner">
@@ -117,7 +117,7 @@
           </div>
         </div>
         <div class=" pt-3 slide-in-tr p-3">
-          <div class="flip">
+          <div class="flip im4">
             <div class="card">
               <div class="face front">
                 <div class="inner">
@@ -143,7 +143,7 @@
           </div>
         </div>
         <div class=" pt-3 slide-in-right p-3">
-          <div class="flip">
+          <div class="flip im5">
             <div class="card">
               <div class="face front">
                 <div class="inner">
@@ -187,7 +187,7 @@
       </div>
     </div>
   </div>
-  <div id="pages" class="container-fluid hide">
+  <div id="pages" class="py-1 container-fluid hide">
     <div class="row justify-content-center">
       <div class="col-xl-10">
         <div id="row1" class="row color-text justify-content-center">
@@ -202,9 +202,37 @@
           </div>
           <div class="container-fluid py-2">
             <h4 class="font-weight-light"></h4>
-            <div id="cardsflex" class="d-flex flex-row flex-nowrap">
+            <div class="accordion hide" id="cardsAccordion">
+              <div class="accordion-item"><!--risposte corrette (cards)-->
+                <h2 class="accordion-header" id="headingOne">
+                  <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                    Risposte corrette
+                  </button>
+                </h2>
+                <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#cardsAccordion">
+                  <div class="accordion-body">
+                    <div id="cardsflex-right" class="d-flex flex-row flex-nowrap">
 
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="headingTwo">
+                  <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                    Risposte Sbagliate
+                  </button>
+                </h2>
+                <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#cardsAccordion">
+                  <div class="accordion-body">
+                    <div id="cardsflex-wrong" class="d-flex flex-row flex-nowrap">
+
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
+            
           </div>
         </div>
         <div id="disc" class=" hide shake-horizontal">
