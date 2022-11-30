@@ -211,7 +211,7 @@ $(document).ready(function(){   //quando la pagina è stata caricata, definisce 
 
     var cards_flexbox = document.getElementById("cardsflex-right");
 
-    for(i = 0; i<QUESTIONS_NUMBER+1; i++){  //inserisce delle card nella pagina finale con descrizione delle opere relative alle risposte corrette
+    for(i = 0; i<QUESTIONS_NUMBER; i++){  //inserisce delle card nella pagina finale con descrizione delle opere relative alle risposte corrette
         //crea nuova carta e inseriscila nel flexbox
         var img = document.createElement("img");
         img.src = shuffledQuestions[i]["image_url"];
