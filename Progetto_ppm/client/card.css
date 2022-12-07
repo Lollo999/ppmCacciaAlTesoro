@@ -97,6 +97,10 @@
   min-height: 102px;
 }
 
+.mw-25{
+  max-width: 25%;
+}
+
 @media only screen and (max-width: 1200px) {
   .flip .card {
           width: 93px;

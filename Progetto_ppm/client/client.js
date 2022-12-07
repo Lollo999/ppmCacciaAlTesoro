@@ -209,6 +209,7 @@ $(document).ready(function(){   //quando la pagina è stata caricata, definisce 
     $('#cardsAccordion').removeClass('hide');
 
 
+    document.getElementById("wrong-label").innerHTML = "Risposte sbagliate: Hai commesso "+wrong+" errori"
     var cards_flexbox = document.getElementById("cardsflex-right");
 
     for(i = 0; i<QUESTIONS_NUMBER; i++){  //inserisce delle card nella pagina finale con descrizione delle opere relative alle risposte corrette
@@ -238,6 +239,7 @@ $(document).ready(function(){   //quando la pagina è stata caricata, definisce 
 
         var card = document.createElement("div");
         card.classList.add("card");
+        card.classList.add("mw-25");
         card.classList.add("end-card");
         card.classList.add("m-2");
         card.classList.add("border-dark");
@@ -276,6 +278,7 @@ $(document).ready(function(){   //quando la pagina è stata caricata, definisce 
 
         var card = document.createElement("div");
         card.classList.add("card");
+        card.classList.add("mw-25");
         card.classList.add("end-card");
         card.classList.add("m-2");
         card.classList.add("border-dark");
@@ -330,3 +333,5 @@ const onDisc = () =>{
 }
 
 sock.on("disc_page", onDisc);   //quando un'altro utente si disconnette dalla partita, il server invia disc_page
+
+
