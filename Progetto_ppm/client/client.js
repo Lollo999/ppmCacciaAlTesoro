@@ -208,8 +208,13 @@ $(document).ready(function(){   //quando la pagina è stata caricata, definisce 
     $('#pages').removeClass('hide');
     $('#cardsAccordion').removeClass('hide');
 
-
-    document.getElementById("wrong-label").innerHTML = "Risposte sbagliate: Hai commesso "+wrong+" errori"
+    if(wrong == 1){
+        let_fin  = 'e';
+    }
+    else{
+        let_fin = 'i';
+    }
+    document.getElementById("wrong-label").innerHTML = "Risposte sbagliate: Hai commesso "+wrong+" error"+let_fin
     var cards_flexbox = document.getElementById("cardsflex-right");
 
     for(i = 0; i<QUESTIONS_NUMBER; i++){  //inserisce delle card nella pagina finale con descrizione delle opere relative alle risposte corrette

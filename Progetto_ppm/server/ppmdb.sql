@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Set 21, 2022 alle 21:44
+-- Creato il: Dic 15, 2022 alle 13:24
 -- Versione del server: 10.4.13-MariaDB
 -- Versione PHP: 7.4.8
 
@@ -44,10 +44,13 @@ INSERT INTO `indovinello` (`code`, `testo`, `opera`) VALUES
 (4, 'Quale di questi quadri ha avuto un libro ed un film ad esso dedicato?', 16),
 (5, 'Quale dei seguenti quadri è esposto nell\'Österreichische Galerie Belvedere di Vienna?', 12),
 (6, 'Quale dei seguenti quadri è stato ispirato da una forma di formaggio?', 11),
-(7, 'Quale dei seguenti dipinti è stato rovinato e l\'autore, dopo averlo ridipinto, a cercato di nascondere l\'accaduto?', 17),
+(7, 'Quale dei seguenti dipinti è stato rovinato e l\'autore, dopo averlo ridipinto, ha cercato di nascondere l\'accaduto?', 17),
 (8, 'Quale dei seguenti dipinti è stato rappresentato nella banconota da 100000 lire?', 18),
 (9, 'Quale dei seguenti quadri è stato dipinto su una tavola di pioppo?', 1),
-(10, 'Quale tra questi quadri fu \'distrutto\' appena dopo la sua vendita?', 19);
+(10, 'Quale tra questi quadri fu \'distrutto\' appena dopo la sua vendita?', 19),
+(13, 'Quale di queste opere è stata realizzata dal suo autore nella alla clinica psichiatrica di Saint-Rémy-de-Provence?', 14),
+(14, 'Quale di queste opere fu realizzata a Firenze per Lorenzo Nasi, ricco commerciante di panni di lana, in occasione del suo matrimonio con Sandra Canigiani?', 8),
+(15, ' Quale di queste opere fu distrutta, nella sua versione originale, alla fine della seconda guerra mondiale nell\'incendio della Flakturm Friedrichshain?', 3);
 
 -- --------------------------------------------------------
 
@@ -69,7 +72,7 @@ CREATE TABLE `opera` (
 INSERT INTO `opera` (`code`, `name`, `description`, `image_url`) VALUES
 (1, 'La Gioconda', 'La Gioconda, nota anche come Monna Lisa, è un dipinto a olio su tavola di legno di pioppo realizzato da Leonardo da Vinci (77×53 cm e 13 mm di spessore), databile al 1503-1514 circa e conservato nel Museo del Louvre di Parigi.\r\n\r\nOpera iconica ed enigmatica della pittura mondiale, si tratta sicuramente del ritratto più celebre della storia nonché di una delle opere d\'arte più note in assoluto. Il sorriso quasi impercettibile del soggetto, col suo alone di mistero, ha ispirato tantissime pagine di critica, letteratura, opere di immaginazione e persino studi psicoanalitici; sfuggente, ironica e sensuale, la Monna Lisa è stata di volta in volta amata e idolatrata, ma anche irrisa e vandalizzata.\r\n\r\nLa Gioconda viene ammirata ogni giorno da circa trentamila visitatori, ovvero l\'80% dei visitatori del Museo del Louvre in cui è esposta, tanto che nella grande sala in cui si trova, un cordone deve tenere a debita distanza le persone. Nella lunga storia del dipinto non sono infatti mancati i tentativi di vandalismo, nonché un furto rocambolesco, che ne hanno alimentato la popolarità.', 'images/gioconda.jpeg'),
 (2, 'Deposizione di caravaggio', 'La Deposizione è un dipinto a olio su tela realizzato, tra il 1602 ed il 1604, dal pittore italiano Michelangelo Merisi detto Caravaggio e conservato presso la Pinacoteca vaticana.\r\n\r\nIl dipinto fu commissionato da Girolamo Vittrice per la cappella dedicata alla Pietà, di proprietà dello zio (Pietro Vittrice, morto il 26 marzo 1600), che si trova nella chiesa di Santa Maria in Vallicella a Roma, celebre sede dell\'Oratorio di san Filippo Neri.', 'images/opera2.jpg'),
-(3, 'Quadro strano colorato', 'descrizione del quadro strano', 'images/opera3.jpg'),
+(3, 'San Matteo e l\'angelo', 'San Matteo è un dipinto realizzato nel 1602 dal pittore italiano Caravaggio. È conservato a Roma nella cappella Contarelli in San Luigi dei Francesi. La prima versione del dipinto, acquistata da Vincenzo Giustiniani, passò ai Musei di Berlino nel 1815 e fu distrutta verso la fine della seconda guerra mondiale nell\'incendio della Flakturm Friedrichshain.', 'images/opera3.jpg'),
 (4, 'Le opere della misericordia', 'Iserire qui la descrizione delle opere della misericordia', 'images/opera4.jpg'),
 (5, 'Deposizione Borghese', 'Inserire qui la descrizione della deposizione borghese di Raffaello', 'images/opera5.jpg'),
 (6, 'Sposalizio della vergine', 'Inserire qui una descrizione dello sposalizio della vergine', 'images/opera6.jpg'),
@@ -134,13 +137,13 @@ ALTER TABLE `opera`
 -- AUTO_INCREMENT per la tabella `indovinello`
 --
 ALTER TABLE `indovinello`
-  MODIFY `code` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `code` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT per la tabella `opera`
 --
 ALTER TABLE `opera`
-  MODIFY `code` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `code` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- Limiti per le tabelle scaricate
