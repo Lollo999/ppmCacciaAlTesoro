@@ -11,6 +11,7 @@ const path = require("path");
 const mysql = require('mysql');
 const fileUpload = require('express-fileupload');
 const { query } = require('express');
+const { type } = require('os');
 
 var n_player = 2;
 
@@ -91,6 +92,40 @@ function getHighestScoreSocket(gameResult) {//in base ai gameresults calcola il 
     return bestSock
 }
 
+function getWinType(gameResult) {//in base ai gameresults calcola il socket vincitore
+    var temp = gameResult.slice();
+    var best = 100
+    var type = 0
+    //selectionSort del temp array
+    function swap(a, b, arr) {
+        var t = arr[a];
+        arr[a] = arr[b];
+        arr[b] = t;
+    }
+
+    console.log({ temp })
+
+    var i, j, min;
+    for (i = 0; i < temp.length - 1; i++) {
+        min = i;
+        for (j = i + 1; j < temp.length; j++) {
+            if (temp[j][1] < temp[min][1]) {
+                min = j;
+            }
+            else if (temp[j][1] == temp[min][1]) {//se hanno commesso lo stesso numero di errori
+                type=1
+                if (temp[j][2] < temp[min][2]) {
+                    min = j
+                }
+            }
+            if (min != i) {
+                swap(min, i, temp);
+            }
+        }
+    }
+    console.log({ temp })
+    return type //restituisce il tipo di vittoria
+}
 const server = http.createServer(app);
 
 var number = 0;
@@ -259,19 +294,27 @@ io.on('connection', (sock) => {
             io.emit("results");
 
             var bestSock = getHighestScoreSocket(gameResult)
+            var winType = getWinType(gameResult)
             for (i = 0; i < gameResult.length; i++) {
                 s = gameResult[i][0]
                 var str = ""
-                if (s == bestSock) {
-                    str = str + "\n HAI VINTO"
+                if (s == bestSock && winType==0) {
+                    str = str + "\n HAI VINTO! Hai commesso meno errori dell'avversario"
                     console.log("vinto" + gameResult[i][1])
                     s.send(str)
-                } else {
-                    str = str + "\n HAI PERSO"
-                    console.log("perso" + gameResult[i][1])
+                } else if(s == bestSock && winType==1) {
+                    str = str + "\n HAI VINTO! Hai impiegato meno tempo dell'avversario"
+                    console.log("vinto" + gameResult[i][1])
+                    s.send(str)
+                } else if(s != bestSock && winType==0) {
+                    str = str + "\n HAI PERSO! Hai commesso più errori dell'avversario"
+                    console.log("vinto" + gameResult[i][1])
+                    s.send(str)
+                } else if(s != bestSock && winType==1) {
+                    str = str + "\n HAI PERSO! Hai impiegato più tempo dell'avversario"
+                    console.log("vinto" + gameResult[i][1])
                     s.send(str)
                 }
-
             }
             console.log("gioco terminato")
         }
