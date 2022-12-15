@@ -697,19 +697,116 @@ h2 {
         text-align: center;
 }
 
-#replytest {
-        letter-spacing: -3px;
-        transition: 700ms ease;
-        font-variation-settings: "wght" 311;
-        margin-bottom: 0.8rem;
-        outline: none;
-        text-align: center;
-      }
-      
-#replytest:hover {
-        font-variation-settings: "wght" 582; 
-        letter-spacing: 1px;
+:root {
+        --color-background: #31037d;
+        --axis-x: 1px;
+        --axis-y: 1rem;
+        --delay: 10;
+        --color-black: #000;
+        --color-white: #fff;
+        --color-orange: #d49c3d;
+        --color-red: #d14b3d;
+        --color-violet: #cf52eb;
+        --color-blue: #44a3f7;
+        --color-green: #5acb3c;
+        --color-yellow: #debf40;
+        --color-foreground: var(--color-white);
+        --font-name: Righteous;
 }
+
+#replytext {
+        background-color: var(--color-background);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: var(--font-name);
+        height: 100vh;
+}
+.c-rainbow {
+        counter-reset: rainbow;
+        position: relative;
+        display: block;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+}
+.c-rainbow__layer {
+        --text-color: var(--color-foreground);
+        counter-increment: rainbow;
+        font-size: 3rem;
+        color: var(--text-color);
+        text-shadow: -1px -1px 0 var(--color-black), 1px -1px 0 var(--color-black), -1px 1px 0 var(--color-black), 1px 1px 0 var(--color-black), 4px 4px 0 rgba(0, 0, 0, .2);
+        animation: rainbow 1.5s ease-in-out infinite;
+}
+.c-rainbow__layer:nth-child(1) {
+        animation-delay: calc(1 / var(--delay) * 1s);
+        left: calc(var(--axis-x) * 1);
+        z-index: -10;
+}
+.c-rainbow__layer:nth-child(2) {
+        animation-delay: calc(2 / var(--delay) * 1s);
+        left: calc(var(--axis-x) * 2);
+        z-index: -20;
+}
+.c-rainbow__layer:nth-child(3) {
+        animation-delay: calc(3 / var(--delay) * 1s);
+        left: calc(var(--axis-x) * 3);
+        z-index: -30;
+}
+.c-rainbow__layer:nth-child(4) {
+        animation-delay: calc(4 / var(--delay) * 1s);
+        left: calc(var(--axis-x) * 4);
+        z-index: -40;
+}
+.c-rainbow__layer:nth-child(5) {
+        animation-delay: calc(5 / var(--delay) * 1s);
+        left: calc(var(--axis-x) * 5);
+        z-index: -50;
+}
+.c-rainbow__layer:nth-child(6) {
+        animation-delay: calc(6 / var(--delay) * 1s);
+        left: calc(var(--axis-x) * 6);
+        z-index: -60;
+}
+.c-rainbow__layer:nth-child(7) {
+        animation-delay: calc(7 / var(--delay) * 1s);
+        left: calc(var(--axis-x) * 7);
+        z-index: -70;
+}
+.c-rainbow__layer:not(:first-child) {
+        position: absolute;
+        top: 0;
+}
+.c-rainbow__layer--white {
+        --text-color: var(--color-white);
+}
+.c-rainbow__layer--orange {
+        --text-color: var(--color-orange);
+}
+.c-rainbow__layer--red {
+        --text-color: var(--color-red);
+}
+.c-rainbow__layer--violet {
+        --text-color: var(--color-violet);
+}
+.c-rainbow__layer--blue {
+        --text-color: var(--color-blue);
+}
+.c-rainbow__layer--green {
+        --text-color: var(--color-green);
+}
+.c-rainbow__layer--yellow {
+        --text-color: var(--color-yellow);
+}
+@keyframes rainbow {
+        0%, 100% {
+                transform: translatey(var(--axis-y));
+       }
+        50% {
+                transform: translatey(calc(var(--axis-y) * -1));
+       }
+}
+
 
 .accordion-button{
         color: inherit;
@@ -726,39 +823,3 @@ h2 {
         background: #ffe9b7 !important;
 }
 
-@font-face {
-        font-family: "ubuntu";
-        font-style: italic;
-        font-weight: 300;
-        src: local("Lato Light Italic"), local("Lato-LightItalic"), url(https://fonts.gstatic.com/s/ubuntucondensed/v8/u-4k0rCzjgs5J7oXnJcM_0kACGMtT-Dfqw.woff2) format("woff2");
-}
-
-a {
-        text-decoration: none;
-        color: #9ca0b1;
-}
-.wrapper {
-        text-align: center;
-}
-.wrapper  {
-        color: #fff;
-        font-size: 92px;
-        text-transform: uppercase;
-        font-weight: 700;
-        font-family: "Josefin Sans", sans-serif;
-        background: linear-gradient(to right, #095fab 10%, #25abe8 50%, #57d75b 60%);
-        background-size: auto auto;
-        background-clip: border-box;
-        background-size: 200% auto;
-        color: #fff;
-        background-clip: text;
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        animation: textclip 1.5s linear infinite;
-        display: inline-block;
-}
-@keyframes textclip {
-        to {
-                background-position: 200% center;
-       }
-}

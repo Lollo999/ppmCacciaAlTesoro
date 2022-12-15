@@ -178,7 +178,13 @@ $(document).ready(function(){   //quando la pagina è stata caricata, definisce 
   }
 
   sock.on('message',function(message){
-    $('#replytest').text(message);
+    $('#replytest_1').text(message);
+    $('#replytest_2').text(message);
+    $('#replytest_3').text(message);
+    $('#replytest_4').text(message);
+    $('#replytest_5').text(message);
+    $('#replytest_6').text(message);
+    $('#replytest_7').text(message);
   });
 
   function questionsOver(){
